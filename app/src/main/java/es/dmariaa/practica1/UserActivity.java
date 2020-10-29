@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class UserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +17,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         UserDataFragment fragment = new UserDataFragment();
-        fragmentTransaction.add(R.id.framents_frame, fragment);
+        fragmentTransaction.add(R.id.fragments_frame, fragment);
         fragmentTransaction.commit();
     }
-
 }
