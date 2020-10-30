@@ -6,4 +6,10 @@
     <color name="correct_color">#185800</color>
     <color name="error_color">#A30B00</color>
     <color name="answer_text_color">#ffffff</color>
+
+
+    <color name="green_thumb">#43a047</color>
+    <color name="green_track">#00701a</color>
+    <color name="red_thumb">#e53935</color>
+    <color name="red_track">#ab000d</color>
 </resources>

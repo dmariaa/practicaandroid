@@ -68,7 +68,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             List<Question> questions = new Gson().fromJson(reader, questionListType);
             this.questions = questions;
 
-            filterQuestions(q -> q.getType() == Question.QuestionType.CHOICE);
+            filterQuestions(q -> q.getType() == Question.QuestionType.MULTICHOICE);
             Collections.shuffle(this.questions);
 
             Log.println(Log.DEBUG, "TriviaActivity", "Leidas " + questions.size() + " preguntas");
@@ -132,11 +132,12 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    private void showAnswer(Answer answer, View.OnClickListener action) {
+    private void showAnswer(View.OnClickListener action) {
         Context context = getApplicationContext();
-        String answerText = (answer.getValue()==1) ? "Respuesta correcta" : "Respuesta incorrecta";
+        boolean isCorrect = currentFragment.isCorrect();
+        String answerText = (isCorrect) ? "Respuesta correcta" : "Respuesta incorrecta";
         View parent = currentFragment.getView();
-        int backgroundColor = getResources().getColor((answer.getValue() == 1) ?
+        int backgroundColor = getResources().getColor((isCorrect) ?
                 R.color.correct_color :
                 R.color.error_color);
 
@@ -152,8 +153,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         if(currentFragment != null) {
             confirmButton.hide();
 
-            Answer answer = currentFragment.getAnswer();
-            showAnswer(answer, new View.OnClickListener() {
+            showAnswer(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
@@ -169,7 +169,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onQuestionAnswered(Answer answer) {
+    public void onQuestionAnswered() {
         confirmButton.show();
     }
 }

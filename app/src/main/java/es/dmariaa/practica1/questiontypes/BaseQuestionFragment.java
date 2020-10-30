@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.util.List;
+
 import es.dmariaa.practica1.R;
 import es.dmariaa.practica1.models.Answer;
 import es.dmariaa.practica1.models.Question;
@@ -17,12 +19,12 @@ public abstract class BaseQuestionFragment extends Fragment {
     OnQuestionAnsweredListener listener;
 
     Question question;
-    Answer answer;
+    List<Integer> userResponses;
 
     public Question getQuestion() {
         return question;
     }
-    public Answer getAnswer() { return answer; }
+    public List<Integer> getUserResponses(){return userResponses;}
 
     public void setQuestion(Question question) {
         this.question = question;
@@ -39,13 +41,18 @@ public abstract class BaseQuestionFragment extends Fragment {
                                             Bundle savedInstanceState);
 
     /**
-     * Returns answer to parent activity
-     * @param answer
+     *
+     * @return
      */
-    protected void returnAnswer(Answer answer) {
-        this.answer = answer;
-        listener.onQuestionAnswered(answer);
+    public abstract boolean isCorrect();
+
+    /**
+     * Returns answer to parent activity
+     */
+    protected void userAnswered() {
+        listener.onQuestionAnswered();
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -63,4 +70,6 @@ public abstract class BaseQuestionFragment extends Fragment {
         View view = createFragmentView(inflater, container, savedInstanceState);
         return view;
     }
+
+
 }
