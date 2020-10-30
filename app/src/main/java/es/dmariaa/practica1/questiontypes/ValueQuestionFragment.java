@@ -27,6 +27,11 @@ public class ValueQuestionFragment extends BaseQuestionFragment {
     }
 
     @Override
+    public boolean isCorrect() {
+        return false;
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -34,6 +39,6 @@ public class ValueQuestionFragment extends BaseQuestionFragment {
         Question question = this.getQuestion();
         textView.setText(Html.fromHtml(question.getDescription()));
 
-        returnAnswer(question.getAnswers().get(0));
+        userAnswered();
     }
 }

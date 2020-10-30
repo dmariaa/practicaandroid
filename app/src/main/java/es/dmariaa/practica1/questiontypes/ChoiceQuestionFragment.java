@@ -29,6 +29,11 @@ public class ChoiceQuestionFragment extends BaseQuestionFragment implements Radi
     }
 
     @Override
+    public boolean isCorrect() {
+        return false;
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -56,7 +61,6 @@ public class ChoiceQuestionFragment extends BaseQuestionFragment implements Radi
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        Answer chosen = question.getAnswers().get(i);
-        returnAnswer(chosen);
+        userAnswered();
     }
 }
