@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,10 @@ public class MultichoiceQuestionFragment extends BaseQuestionFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView textView = view.findViewById(R.id.textView_multichoice);
+        TextView textView = view.findViewById(R.id.textView_choice);
         Question question = this.getQuestion();
-        textView.setText(question.getDescription());
+        textView.setText(Html.fromHtml(question.getDescription()));
 
-        returnAnswer("!");
+        returnAnswer(question.getAnswers().get(0));
     }
 }

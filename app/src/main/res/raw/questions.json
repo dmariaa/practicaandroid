@@ -32,7 +32,7 @@
     "id": 2,
     "type": "choice",
     "minimum_age": 10,
-    "description": "¿Qué situaciones de desigualdad crees que existen en nuestro país?",
+    "description": "¿Qué situaciones de <b>desigualdad</b> crees que existen en nuestro país?",
     "feedback": "",
     "answers": [
       {
