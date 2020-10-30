@@ -10,16 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import es.dmariaa.practica1.R;
+import es.dmariaa.practica1.models.Answer;
 import es.dmariaa.practica1.models.Question;
 
 public abstract class BaseQuestionFragment extends Fragment {
     OnQuestionAnsweredListener listener;
 
     Question question;
+    Answer answer;
 
     public Question getQuestion() {
         return question;
     }
+    public Answer getAnswer() { return answer; }
 
     public void setQuestion(Question question) {
         this.question = question;
@@ -39,7 +42,8 @@ public abstract class BaseQuestionFragment extends Fragment {
      * Returns answer to parent activity
      * @param answer
      */
-    protected void returnAnswer(String answer) {
+    protected void returnAnswer(Answer answer) {
+        this.answer = answer;
         listener.onQuestionAnswered(answer);
     }
 
