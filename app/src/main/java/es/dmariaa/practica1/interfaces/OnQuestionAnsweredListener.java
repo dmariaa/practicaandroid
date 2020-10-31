@@ -1,4 +1,4 @@
-package es.dmariaa.practica1.questiontypes;
+package es.dmariaa.practica1.interfaces;
 
 import es.dmariaa.practica1.models.Answer;
 

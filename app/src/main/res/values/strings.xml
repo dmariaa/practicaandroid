@@ -1,8 +1,29 @@
 <resources>
     <string name="app_name">practica1</string>
     <string name="confirmar_respuesta">Confirmar respuesta</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pregunta_placeholder">Aqui va la pregunta</string>
     <string name="bad_parent_activiy">Parent class doesn\'t implement OnQuestionAnsweredListener</string>
-    <string name="next_question">siguiente</string>
+    <string name="proxima_pregunta">siguiente</string>
+    <string name="verdadero_o_falso">¿Verdadero o falso?</string>
+    <string name="falso">Falso</string>
+    <string name="verdadero">Verdadero</string>
+    <string name="elige_una">Elige una opción entre las disponibles</string>
+    <string name="elige_varias">Elige todas las opciones que consideres correctas</string>
+    <string name="selecciona_verdaderofalso">Usa el selector para elegir tu respuesta</string>
+    <string name="elige_un_valor">Desliza hasta seleccionar el valor deseado</string>
+    <string name="respuesta_correcta">¡Respuesta correcta!</string>
+    <string name="respuesta_equivocada">¡Respuesta incorrecta!</string>
+    <string name="partida_finalizada">¡Has finalizado la partida!</string>
+    <string name="proximas_entregas"><![CDATA[
+        <big><b>En próximas entregas</b></big>
+        <br></br>
+        <ul>
+            <li>Resultados propios</li>
+            <li>Estadísticas globales</li>
+            <li>Sistema PEGI para las preguntas</li>
+            <li>Configuración</li>
+            <li>Cuenta persistente</li>
+            <li>Y muchas funcionalidades mas…</li>
+        </ul>
+    ]]></string>
 </resources>

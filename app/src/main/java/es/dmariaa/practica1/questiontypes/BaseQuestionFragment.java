@@ -2,36 +2,45 @@ package es.dmariaa.practica1.questiontypes;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.List;
-
 import es.dmariaa.practica1.R;
-import es.dmariaa.practica1.models.Answer;
+import es.dmariaa.practica1.interfaces.OnQuestionAnsweredListener;
 import es.dmariaa.practica1.models.Question;
 
 public abstract class BaseQuestionFragment extends Fragment {
     OnQuestionAnsweredListener listener;
 
     Question question;
-    List<Integer> userResponses;
 
+    Toast hintToast;
+
+    /**
+     * Get this fragment question
+     * @return
+     */
     public Question getQuestion() {
         return question;
     }
-    public List<Integer> getUserResponses(){return userResponses;}
 
+    /**
+     * Set this fragment question
+     * @param question
+     */
     public void setQuestion(Question question) {
         this.question = question;
     }
 
     /**
-     * Implement to assign view
+     * Assign this fragment view
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -41,16 +50,29 @@ public abstract class BaseQuestionFragment extends Fragment {
                                             Bundle savedInstanceState);
 
     /**
-     *
+     * Is this question correct
      * @return
      */
     public abstract boolean isCorrect();
 
     /**
+     * Get hint for this question
+     * @return
+     */
+    protected abstract String getHint();
+
+    /**
      * Returns answer to parent activity
      */
     protected void userAnswered() {
+        if(hintToast != null) hintToast.cancel();
         listener.onQuestionAnswered();
+    }
+
+    public void pauseQuestion(boolean pause) {
+        getView().setEnabled(false);
+        getView().setClickable(false);
+        getView().setFocusable(false);
     }
 
 
@@ -71,5 +93,12 @@ public abstract class BaseQuestionFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        hintToast = Toast.makeText(getContext(), getHint(), Toast.LENGTH_LONG);
+        hintToast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 24);
+        hintToast.show();
+    }
 }

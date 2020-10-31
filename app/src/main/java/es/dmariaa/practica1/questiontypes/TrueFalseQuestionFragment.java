@@ -2,23 +2,20 @@ package es.dmariaa.practica1.questiontypes;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.os.Debug;
-import android.text.Html;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Switch;
-import android.widget.TextView;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import es.dmariaa.practica1.R;
-import es.dmariaa.practica1.models.Answer;
 import es.dmariaa.practica1.models.Question;
 
 /**
@@ -34,9 +31,14 @@ public class TrueFalseQuestionFragment extends BaseQuestionFragment implements C
 
     @Override
     public boolean isCorrect() {
-        Switch button = getView().findViewById(R.id.switch1);
+        SwitchMaterial button = getView().findViewById(R.id.switch1);
         boolean answer = question.getAnswers().get(0).getValue() == 1;
         return button.isChecked() == answer;
+    }
+
+    @Override
+    protected String getHint() {
+        return getResources().getString(R.string.selecciona_verdaderofalso);
     }
 
     @Override
@@ -52,7 +54,7 @@ public class TrueFalseQuestionFragment extends BaseQuestionFragment implements C
 
     @SuppressLint({"SetTextI18n", "UseSwitchCompatOrMaterialCode"})
     public void createOptionButton(Question question){
-        Switch button = getView().findViewById(R.id.switch1);
+        SwitchMaterial button = getView().findViewById(R.id.switch1);
 
         button.setOnCheckedChangeListener(this);
 
@@ -61,6 +63,7 @@ public class TrueFalseQuestionFragment extends BaseQuestionFragment implements C
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        /*
         TextView falseText = getView().findViewById(R.id.falseText);
         TextView trueText = getView().findViewById(R.id.trueText);
 
@@ -71,6 +74,8 @@ public class TrueFalseQuestionFragment extends BaseQuestionFragment implements C
             trueText.setAlpha(0);
             falseText.setAlpha(1);
         }
+        */
+
         userAnswered();
     }
 
