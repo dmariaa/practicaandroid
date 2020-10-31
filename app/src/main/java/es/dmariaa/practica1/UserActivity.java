@@ -23,6 +23,8 @@ public class UserActivity extends AppCompatActivity implements OnStartTriviaList
         fragment.setOnStartTriviaListener(this);
         fragmentTransaction.add(R.id.fragments_frame, fragment);
         fragmentTransaction.commit();
+
+        this.setTitle(getString(R.string.userdata_title));
     }
 
     @Override
