@@ -62,8 +62,10 @@ public class AnswerResultDialogFragment extends BottomSheetDialogFragment {
 
     @Override
     public void onCancel(@NonNull DialogInterface dialog) {
+        /*
         if(onResultClosedListener != null) {
             onResultClosedListener.onResultClosed();
         }
+        */
     }
 }

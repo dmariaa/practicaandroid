@@ -22,5 +22,7 @@ public class TriviaEndActivity extends AppCompatActivity {
         } else {
             htmlText.setText(Html.fromHtml(html));
         }
+
+        this.setTitle(R.string.trivia_end_title);
     }
 }

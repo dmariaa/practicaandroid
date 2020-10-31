@@ -113,7 +113,13 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             fragmentTransaction.add(R.id.question_frame, fragment);
             fragmentTransaction.commit();
             currentFragment = fragment;
+
+            setCurrentQuestionTitle();
         }
+    }
+
+    private void setCurrentQuestionTitle() {
+        this.setTitle(getString(R.string.trivia_title, currentQuestion + 1));
     }
 
     /**

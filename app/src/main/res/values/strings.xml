@@ -26,4 +26,8 @@
             <li>Y muchas funcionalidades mas…</li>
         </ul>
     ]]></string>
+    <string name="introduce_tus_datos">Introduce tus datos</string>
+    <string name="userdata_title">Datos del jugador</string>
+    <string name="trivia_title">Trivia (pregunta %1d)</string>
+    <string name="trivia_end_title">Fin de la partida</string>
 </resources>

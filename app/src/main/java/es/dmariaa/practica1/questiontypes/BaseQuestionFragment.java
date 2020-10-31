@@ -101,4 +101,10 @@ public abstract class BaseQuestionFragment extends Fragment {
         hintToast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 24);
         hintToast.show();
     }
+
+    @Override
+    public void onDestroy() {
+        hintToast.cancel();
+        super.onDestroy();
+    }
 }
