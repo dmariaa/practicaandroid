@@ -6,14 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,15 +23,14 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
-import es.dmariaa.practica1.models.Answer;
+import es.dmariaa.practica1.dialogs.AnswerResultDialogFragment;
+import es.dmariaa.practica1.interfaces.OnResultClosedListener;
 import es.dmariaa.practica1.models.Question;
 import es.dmariaa.practica1.questiontypes.BaseQuestionFragment;
 import es.dmariaa.practica1.questiontypes.ChoiceQuestionFragment;
 import es.dmariaa.practica1.questiontypes.MultichoiceQuestionFragment;
-import es.dmariaa.practica1.questiontypes.OnQuestionAnsweredListener;
+import es.dmariaa.practica1.interfaces.OnQuestionAnsweredListener;
 import es.dmariaa.practica1.questiontypes.TrueFalseQuestionFragment;
 import es.dmariaa.practica1.questiontypes.ValueQuestionFragment;
 
@@ -42,19 +39,6 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     FloatingActionButton confirmButton;
     int currentQuestion = 0;
     BaseQuestionFragment currentFragment;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trivia);
-
-        confirmButton = (FloatingActionButton) findViewById(R.id.confirmButton);
-        confirmButton.setOnClickListener(this);
-        confirmButton.hide();
-
-        loadQuestions();
-        loadQuestionFragment(questions.get(currentQuestion));
-    }
 
     /**
      * Loads questions from json
@@ -68,7 +52,8 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             List<Question> questions = new Gson().fromJson(reader, questionListType);
             this.questions = questions;
 
-            filterQuestions(q -> q.getType() == Question.QuestionType.MULTICHOICE);
+            // Filtering questions
+            // filterQuestions(q -> q.getType() == Question.QuestionType.VALUE);
             Collections.shuffle(this.questions);
 
             Log.println(Log.DEBUG, "TriviaActivity", "Leidas " + questions.size() + " preguntas");
@@ -131,36 +116,53 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-
-    private void showAnswer(View.OnClickListener action) {
+    /**
+     * Shows question result
+     * @param action
+     */
+    private void showAnswer(Runnable action) {
         Context context = getApplicationContext();
         boolean isCorrect = currentFragment.isCorrect();
         String answerText = (isCorrect) ? "Respuesta correcta" : "Respuesta incorrecta";
         View parent = currentFragment.getView();
-        int backgroundColor = getResources().getColor((isCorrect) ?
-                R.color.correct_color :
-                R.color.error_color);
 
-        Snackbar.make(parent, answerText, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.next_question, action)
-                .setBackgroundTint(backgroundColor)
-                .setActionTextColor(getResources().getColor(R.color.answer_text_color))
-                .show();
+        AnswerResultDialogFragment answerResultDialogFragment = new AnswerResultDialogFragment();
+        answerResultDialogFragment.setResultRight(isCorrect);
+        answerResultDialogFragment.setOnResultClosedListener(new OnResultClosedListener() {
+            @Override
+            public void onResultClosed() {
+                action.run();
+            }
+        });
+        answerResultDialogFragment.show(getSupportFragmentManager(), answerResultDialogFragment.getTag());
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_trivia);
+
+        confirmButton = (FloatingActionButton) findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(this);
+        confirmButton.hide();
+
+        loadQuestions();
+        loadQuestionFragment(questions.get(currentQuestion));
     }
 
     @Override
     public void onClick(View view) {
         if(currentFragment != null) {
             confirmButton.hide();
-
-            showAnswer(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
-                    currentQuestion++;
-                    if (currentQuestion < questions.size()) {
-                        loadQuestionFragment(questions.get(currentQuestion));
-                    }
+            currentFragment.pauseQuestion(false);
+            showAnswer(() -> {
+                getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+                currentQuestion++;
+                if (currentQuestion < questions.size()) {
+                    loadQuestionFragment(questions.get(currentQuestion));
+                } else {
+                    Intent intent = new Intent(this, TriviaEndActivity.class);
+                    startActivity(intent);
                 }
             });
         } else {

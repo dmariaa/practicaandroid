@@ -12,7 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.dmariaa.practica1.R;
 import es.dmariaa.practica1.models.Answer;
@@ -24,6 +28,8 @@ import es.dmariaa.practica1.models.Question;
  */
 public class MultichoiceQuestionFragment extends BaseQuestionFragment implements CompoundButton.OnCheckedChangeListener {
 
+    List<CheckBox> options;
+
     @Override
     public View createFragmentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_multichoice_question, container, false);
@@ -31,13 +37,25 @@ public class MultichoiceQuestionFragment extends BaseQuestionFragment implements
 
     @Override
     public boolean isCorrect() {
-        for(int i = 0; i<question.getAnswers().size(); i++){
-            CheckBox group = getView().findViewById(R.id.multichoice0 +i);
-            if (!group.isChecked()){
-                return false;
+        boolean correct = true;
+
+        for(int i=0; i < question.getAnswers().size(); i++) {
+            Answer answer = question.getAnswers().get(i);
+            CheckBox checkBox = options.get(i);
+            boolean answerValue = answer.getValue()==1;
+
+            if(checkBox.isChecked() != answerValue) {
+                correct = false;
+                break;
             }
         }
-        return true;
+
+        return correct;
+    }
+
+    @Override
+    protected String getHint() {
+        return getResources().getString(R.string.elige_varias);
     }
 
     @Override
@@ -48,24 +66,25 @@ public class MultichoiceQuestionFragment extends BaseQuestionFragment implements
         Question question = this.getQuestion();
         textView.setText(Html.fromHtml(question.getDescription()));
 
+        options = new ArrayList<CheckBox>();
         createOptionButtons(question);
     }
 
     private void createOptionButtons(Question question) {
-
+        LinearLayout optionsLayout = getView().findViewById(R.id.options_layout);
 
         for(int i=0; i < question.getAnswers().size(); i++) {
-            CheckBox group = getView().findViewById(R.id.multichoice0 +i);
-            group.setVisibility(View.VISIBLE);
-            group.setOnCheckedChangeListener(this);
             Answer answer = question.getAnswers().get(i);
-            CheckBox btn = new CheckBox(getContext());
-            btn.setId(i);
-            btn.setText(answer.getDescription());
-            btn.setTextSize(18);
-            group.setText(btn.getText());
-        }
 
+            CheckBox checkBox = new CheckBox(getContext());
+            checkBox.setId(i);
+            checkBox.setText(answer.getDescription());
+            checkBox.setTextSize(18);
+            checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            checkBox.setOnCheckedChangeListener(this);
+            optionsLayout.addView(checkBox);
+            options.add(checkBox);
+        }
     }
 
     @Override
