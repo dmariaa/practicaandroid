@@ -43,6 +43,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     FloatingActionButton confirmButton;
     int currentQuestion = 0;
     BaseQuestionFragment currentFragment;
+    boolean showAnswer = true;
 
     /**
      * Loads questions from json
@@ -56,8 +57,8 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             List<Question> questions = new Gson().fromJson(reader, questionListType);
             this.questions = questions;
 
-            // Filtering questions
-            filterQuestions(q -> q.getType() == Question.QuestionType.CHOICE);
+            // Filtering and shuffling questions
+            // filterQuestions(q -> q.getType() == Question.QuestionType.CHOICE);
             Collections.shuffle(this.questions);
 
             Log.println(Log.DEBUG, "TriviaActivity", "Leidas " + questions.size() + " preguntas");
@@ -135,15 +136,19 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         String answerText = (isCorrect) ? "Respuesta correcta" : "Respuesta incorrecta";
         View parent = currentFragment.getView();
 
-        AnswerResultDialogFragment answerResultDialogFragment = new AnswerResultDialogFragment();
-        answerResultDialogFragment.setResultRight(isCorrect);
-        answerResultDialogFragment.setOnResultClosedListener(new OnResultClosedListener() {
-            @Override
-            public void onResultClosed() {
-                action.run();
-            }
-        });
-        answerResultDialogFragment.show(getSupportFragmentManager(), answerResultDialogFragment.getTag());
+        if(showAnswer) {
+            AnswerResultDialogFragment answerResultDialogFragment = new AnswerResultDialogFragment();
+            answerResultDialogFragment.setResultRight(isCorrect);
+            answerResultDialogFragment.setOnResultClosedListener(new OnResultClosedListener() {
+                @Override
+                public void onResultClosed() {
+                    action.run();
+                }
+            });
+            answerResultDialogFragment.show(getSupportFragmentManager(), answerResultDialogFragment.getTag());
+        } else {
+            action.run();
+        }
     }
 
     @Override
@@ -180,9 +185,9 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             result.putQuestionResult(questionResult);
 
             showAnswer(isCorrect, () -> {
+                getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
                 currentQuestion++;
                 if (currentQuestion < questions.size()) {
-                    getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
                     loadQuestionFragment(questions.get(currentQuestion));
                 } else {
                     Intent intent = new Intent(this, TriviaEndActivity.class);

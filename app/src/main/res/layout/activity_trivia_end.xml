@@ -53,13 +53,13 @@
         android:id="@+id/html_future"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:text="@string/proximas_entregas"
         android:textAlignment="viewStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+        app:layout_constraintTop_toBottomOf="@+id/button_playagain"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -79,6 +79,16 @@
         android:text="text_answers"
         android:textAlignment="textEnd"
         app:layout_constraintEnd_toEndOf="@+id/progress_bar"
+        app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+
+    <Button
+        android:id="@+id/button_playagain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/volver_a_jugar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

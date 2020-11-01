@@ -55,6 +55,7 @@ public class AnswerResultDialogFragment extends BottomSheetDialogFragment {
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
         if(onResultClosedListener != null) {
             onResultClosedListener.onResultClosed();
         }
@@ -62,6 +63,7 @@ public class AnswerResultDialogFragment extends BottomSheetDialogFragment {
 
     @Override
     public void onCancel(@NonNull DialogInterface dialog) {
+        super.onCancel(dialog);
         /*
         if(onResultClosedListener != null) {
             onResultClosedListener.onResultClosed();
