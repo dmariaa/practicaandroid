@@ -9,8 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TriviaEndActivity">
-
+        <activity android:name=".TriviaEndActivity" android:noHistory="true">
         </activity>
         <activity android:name=".UserActivity" android:noHistory="true">
             <intent-filter>
@@ -18,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TriviaActivity">
+        <activity android:name=".TriviaActivity"  android:noHistory="true">
         </activity>
     </application>
 

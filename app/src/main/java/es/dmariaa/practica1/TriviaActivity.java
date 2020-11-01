@@ -27,6 +27,8 @@ import java.util.List;
 import es.dmariaa.practica1.dialogs.AnswerResultDialogFragment;
 import es.dmariaa.practica1.interfaces.OnResultClosedListener;
 import es.dmariaa.practica1.models.Question;
+import es.dmariaa.practica1.models.QuestionResult;
+import es.dmariaa.practica1.models.Result;
 import es.dmariaa.practica1.questiontypes.BaseQuestionFragment;
 import es.dmariaa.practica1.questiontypes.ChoiceQuestionFragment;
 import es.dmariaa.practica1.questiontypes.MultichoiceQuestionFragment;
@@ -36,6 +38,8 @@ import es.dmariaa.practica1.questiontypes.ValueQuestionFragment;
 
 public class TriviaActivity extends AppCompatActivity implements View.OnClickListener, OnQuestionAnsweredListener {
     List<Question> questions;
+    Result result;
+
     FloatingActionButton confirmButton;
     int currentQuestion = 0;
     BaseQuestionFragment currentFragment;
@@ -53,7 +57,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             this.questions = questions;
 
             // Filtering questions
-            // filterQuestions(q -> q.getType() == Question.QuestionType.VALUE);
+            filterQuestions(q -> q.getType() == Question.QuestionType.CHOICE);
             Collections.shuffle(this.questions);
 
             Log.println(Log.DEBUG, "TriviaActivity", "Leidas " + questions.size() + " preguntas");
@@ -126,9 +130,8 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
      * Shows question result
      * @param action
      */
-    private void showAnswer(Runnable action) {
+    private void showAnswer(boolean isCorrect, Runnable action) {
         Context context = getApplicationContext();
-        boolean isCorrect = currentFragment.isCorrect();
         String answerText = (isCorrect) ? "Respuesta correcta" : "Respuesta incorrecta";
         View parent = currentFragment.getView();
 
@@ -148,6 +151,14 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trivia);
 
+        String username = getIntent().getStringExtra("USERNAME");
+        String birthdate = getIntent().getStringExtra("BIRTHDATE");
+
+        result = new Result();
+        result.setUser(username);
+        result.setBirthdate(birthdate);
+        result.setResults(new ArrayList<QuestionResult>());
+
         confirmButton = (FloatingActionButton) findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
         confirmButton.hide();
@@ -161,13 +172,21 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         if(currentFragment != null) {
             confirmButton.hide();
             currentFragment.pauseQuestion(false);
-            showAnswer(() -> {
-                getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+
+            boolean isCorrect = currentFragment.isCorrect();
+            QuestionResult questionResult = new QuestionResult();
+            questionResult.setId(currentFragment.getQuestion().getId());
+            questionResult.setValue(isCorrect ? 1 : 0);
+            result.putQuestionResult(questionResult);
+
+            showAnswer(isCorrect, () -> {
                 currentQuestion++;
                 if (currentQuestion < questions.size()) {
+                    getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
                     loadQuestionFragment(questions.get(currentQuestion));
                 } else {
                     Intent intent = new Intent(this, TriviaEndActivity.class);
+                    intent.putExtra("RESULT", result);
                     startActivity(intent);
                 }
             });

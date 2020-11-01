@@ -16,8 +16,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import es.dmariaa.practica1.dialogs.DatePickerFragment;
@@ -34,6 +36,22 @@ public class UserDataFragment extends Fragment implements View.OnClickListener,
     private EditText txtName;
     private EditText txtBirthdate;
     private Button startTrivia;
+
+    public String getName() {
+        if(txtName != null) {
+            return txtName.getText().toString();
+        } else {
+            return new String("");
+        }
+    }
+
+    public String getBirthDate() {
+        if(txtBirthdate != null) {
+            return txtBirthdate.getText().toString();
+        } else {
+            return new String("");
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
