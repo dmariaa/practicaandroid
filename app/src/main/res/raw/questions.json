@@ -4,6 +4,7 @@
     "type": "choice",
     "minimum_age": 10,
     "description": "¿En qué países existe igualdad real entre hombres y mujeres?",
+    "image": "q1.png",
     "feedback": "",
     "answers": [
       {
@@ -33,6 +34,7 @@
     "type": "choice",
     "minimum_age": 10,
     "description": "¿Qué situaciones de <b>desigualdad</b> crees que existen en nuestro país?",
+    "image": "q2.png",
     "feedback": "",
     "answers": [
       {
@@ -62,6 +64,7 @@
     "type": "choice",
     "minimum_age": 10,
     "description": "¿Cuantas de nuestras comunidades autónomas son presididas por mujeres?",
+    "image": "q3.png",
     "answers": [
       {
         "id": 1,
@@ -90,6 +93,7 @@
     "type": "choice",
     "minimum_age": 10,
     "description": "Las españolas dedican más tiempo que los hombres al trabajo de cuidados<br>¿Cuántas horas más al día?",
+    "image": "q4.png",
     "answers": [
       {
         "id": 1,
@@ -118,6 +122,7 @@
     "type": "choice",
     "minimum_age": 10,
     "description": "¿Como se llama la discriminación de personas de un sexo por considerarlo inferior?",
+    "image": "q5.png",
     "answers": [
       {
         "id": 1,
@@ -146,6 +151,7 @@
     "type": "choice",
     "minimum_age": 10,
     "description": "¿Que porcentaje de mujeres a nivel mundial han sufrido violencia física y/o sexual?",
+    "image": "q6.png",
     "answers": [
       {
         "id": 1,
@@ -174,6 +180,7 @@
     "type": "choice",
     "minimum_age": 10,
     "description": "Existen formas de violencia hacia las mujeres y las niñas que se podrían definir como las más radicales, ¿cuáles son?",
+    "image": "q7.png",
     "answers": [
       {
         "id": 1,

@@ -14,6 +14,7 @@ public class Question {
 
     int id;
     QuestionType type;
+    String image;
     int minimumAge;
     String description;
     String feedback;
@@ -22,6 +23,8 @@ public class Question {
     public int getId() {
         return id;
     }
+
+    public String getImage() { return image; }
 
     public QuestionType getType() {
         return type;
