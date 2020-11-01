@@ -96,7 +96,6 @@ public abstract class BaseQuestionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         hintToast = Toast.makeText(getContext(), getHint(), Toast.LENGTH_LONG);
         hintToast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 24);
         hintToast.show();
@@ -104,7 +103,7 @@ public abstract class BaseQuestionFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        hintToast.cancel();
         super.onDestroy();
+        hintToast.cancel();
     }
 }
