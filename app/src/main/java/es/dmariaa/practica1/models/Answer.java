@@ -6,6 +6,7 @@ public class Answer {
     int value;
     int valuemin;
     int valuemax;
+    String valueformat;
     int step;
 
     public int getId() {
@@ -26,6 +27,10 @@ public class Answer {
 
     public int getValuemax() {
         return valuemax;
+    }
+
+    public String getValueformat() {
+        return valueformat;
     }
 
     public int getStep() {

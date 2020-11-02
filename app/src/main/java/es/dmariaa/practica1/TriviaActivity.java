@@ -58,7 +58,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             this.questions = questions;
 
             // Filtering and shuffling questions
-            // filterQuestions(q -> q.getType() == Question.QuestionType.CHOICE);
+            filterQuestions(q -> q.getType() == Question.QuestionType.VALUE);
             Collections.shuffle(this.questions);
 
             Log.println(Log.DEBUG, "TriviaActivity", "Leidas " + questions.size() + " preguntas");

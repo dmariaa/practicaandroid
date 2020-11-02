@@ -476,14 +476,15 @@
     "type": "value",
     "minimun_age": 10,
     "description": "¿Cuanto ganan de menos las mujeres en la Unión Europea?",
-    "feedback": "Por término medio, las mujeres de la UE ganan alrededor de un 16% menos por hora que los hombres",
+    "feedback": "Por término medio, las mujeres de la UE ganan alrededor de un 15% menos por hora que los hombres",
     "answers": [
       {
         "id": 1,
         "description": "",
-        "value": 16,
+        "value": 15,
         "valuemin": 0,
         "valuemax": 100,
+        "valueformat": "%d%%",
         "step": 5
       }
     ]
@@ -501,6 +502,7 @@
         "value": 200,
         "valuemin": 0,
         "valuemax": 800,
+        "valueformat": "%dMM",
         "step": 100
       }
     ]
@@ -518,7 +520,8 @@
         "value": 650,
         "valuemin": 0,
         "valuemax": 800,
-        "step": 100
+        "valueformat": "%dMM",
+        "step": 50
       }
     ]
   },
@@ -535,6 +538,7 @@
         "value": 75,
         "valuemin": 0,
         "valuemax": 100,
+        "valueformat": "%d%%",
         "step": 5
       }
     ]
