@@ -1,34 +1,33 @@
-[
-  {
-    "id": 1,
-    "type": "choice",
-    "minimum_age": 10,
-    "description": "¿En qué países existe igualdad real entre hombres y mujeres?",
-    "image": "q1.png",
-    "feedback": "",
-    "answers": [
-      {
-        "id": 1,
-        "description": "Noruega, Suecia, Holanda",
-        "value": 0
-      },
-      {
-        "id": 2,
-        "description": "Solo en Noruega",
-        "value": 0
-      },
-      {
-        "id": 3,
-        "description": "Estados unidos, Noruega y España",
-        "value": 0
-      },
-      {
-        "id": 4,
-        "description": "En ningún pais del mundo",
-        "value": 1
-      }
-    ]
-  },
+[{
+  "id": 1,
+  "type": "choice",
+  "minimum_age": 10,
+  "description": "¿En qué países existe igualdad real entre hombres y mujeres?",
+  "image": "q1.png",
+  "feedback": "",
+  "answers": [
+    {
+      "id": 1,
+      "description": "Noruega, Suecia, Holanda",
+      "value": 0
+    },
+    {
+      "id": 2,
+      "description": "Solo en Noruega",
+      "value": 0
+    },
+    {
+      "id": 3,
+      "description": "Estados unidos, Noruega y España",
+      "value": 0
+    },
+    {
+      "id": 4,
+      "description": "En ningún pais del mundo",
+      "value": 1
+    }
+  ]
+},
   {
     "id": 2,
     "type": "choice",
@@ -540,6 +539,258 @@
         "valuemax": 100,
         "valueformat": "%d%%",
         "step": 5
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "type": "choice",
+    "minimum_age": 10,
+    "description": "¿Cuántos millones de mujeres y niñas y en cuántos países han sufrido mutilación genital femenina?",
+    "video": "pregunta_video_id_19",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Más de 200 millones en 28 países",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "Más de 300 millones en 52 países",
+        "value": 0
+      },
+      {
+        "id": 3,
+        "description": "Menos de 100 millones en 13 países",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "250 millones en 35 países",
+        "value": 0
+      }
+    ]
+  },
+  {
+  "id": 20,
+  "type": "choice",
+  "minimum_age": 10,
+  "description": "¿En qué año consiguieron las mujeres votar en Arabia Saudí?",
+  "video": "pregunta_video_id_20",
+  "feedback": "",
+  "answers": [
+      {
+        "id": 1,
+        "description": "2007",
+        "value": 0
+      },
+      {
+        "id": 2,
+        "description": "2011",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "description": "1996",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "Todavía no pueden",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "type": "choice",
+    "minimum_age": 10,
+    "description": "¿Qué se celebra el 25 de noviembre?",
+    "video": "pregunta_video_id_21",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "El Día Internacional de la Eliminación de la violencia contra la mujer",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "Navidad",
+        "value": 0
+      },
+      {
+        "id": 3,
+        "description": "El Día de los Santos Inocentes",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "El Día Internacional del Multilateralismo y la Diplomacia para la Paz",
+        "value": 0
+      }
+    ]
+  },
+
+    {
+    "id": 22,
+    "type": "multichoice",
+    "minimun_age": 13,
+    "description": "¿En qué países africanos la Jefatura de Estado está ejercida por una mujer?",
+    "video": "pregunta_video_id_22",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Etiopía",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "Ghana",
+        "value": 0
+      },
+      {
+        "id": 3,
+        "description": "Sudáfrica",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "Namibia",
+        "value": 1
+      },
+      {
+        "id": 5,
+        "description": "Costa de Marfil",
+        "value": 0
+      },
+      {
+        "id": 6,
+        "description": "Egipto",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "type": "multichoice",
+    "minimun_age": 13,
+    "description": "¿Cuáles podrían ser medidas a tomar para combatir la desigualdad en el trabajo entre hombres y mujeres?",
+    "video": "pregunta_video_id_23",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Equiparar permisos de paternidad y maternidad",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "Mantener a los hombres en los altos puestos",
+        "value": 0
+      },
+      {
+        "id": 3,
+        "description": "Crear un espacio seguro",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "description": "Continuar con la brecha salarial",
+        "value": 0
+      },
+      {
+        "id": 5,
+        "description": "Seguir contratando a las mujeres mayormente a tiempo parcial ",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "type": "truefalse",
+    "minimun_age": 10,
+    "description": "¿La activista Agnes Pareyio sensibiliza sobre la Mutilación Genital Femenina?",
+    "video": "pregunta_video_id_24",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Verdadero",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "type": "truefalse",
+    "minimun_age": 10,
+    "description": "Una de cada cinco mujeres sufre acoso en el transporte público:",
+    "video": "pregunta_video_id_25",
+    "feedback": "Es una de cada cuatro mujeres",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Falso",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "type": "value",
+    "minimun_age": 10,
+    "description": "¿Cuántas niñas se casan al año durante su infancia? En millones",
+    "video": "pregunta_video_id_26",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "",
+        "value": 12,
+        "valuemin": 10,
+        "valuemax": 25,
+        "valueformat": "%d%%",
+        "step": 1
+      }
+    ]
+    },{
+    "id": 27,
+    "type": "value",
+    "minimun_age": 10,
+    "description": "¿Qué lugar ocupa Ruanda en la lucha contra la brecha de género?",
+    "video": "pregunta_video_id_27",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "",
+        "value": 6,
+        "valuemin": 0,
+        "valuemax": 10,
+        "valueformat": "%d%%",
+        "step": 1
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "type": "value",
+    "minimun_age": 10,
+    "description": "¿Cuántas niñas son cortadas genitalmente? En millones",
+    "video": "pregunta_video_id_28",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "",
+        "value": 3,
+        "valuemin": 0,
+        "valuemax": 5,
+        "valueformat": "%d%%",
+        "step": 1
       }
     ]
   }

@@ -1,43 +1,52 @@
 package es.dmariaa.practica1;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
+import es.dmariaa.practica1.data.model.UserProfile;
+import es.dmariaa.practica1.ui.users.UserProfileDetailFragment;
+import es.dmariaa.practica1.ui.users.UserProfileListFragment;
 
-import java.util.Calendar;
-
-import es.dmariaa.practica1.interfaces.OnStartTriviaListener;
-
-public class UserActivity extends AppCompatActivity implements OnStartTriviaListener {
-    UserDataFragment fragment;
+public class UserActivity extends AppCompatActivity {
+    UserProfileListFragment userListFragment;
+    UserProfileDetailFragment detailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragment = new UserDataFragment();
-        fragment.setOnStartTriviaListener(this);
-        fragmentTransaction.add(R.id.fragments_frame, fragment);
-        fragmentTransaction.commit();
-
         this.setTitle(getString(R.string.userdata_title));
+        this.userListFragment = new UserProfileListFragment();
+        this.detailFragment = new UserProfileDetailFragment();
+
+        showListFragment();
     }
 
-    @Override
-    public void onStartTrivia() {
-        String user = fragment.getName();
-        String birthdate = fragment.getBirthDate();
+    public void showListFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(detailFragment);
+        fragmentTransaction.add(R.id.fragments_frame, this.userListFragment);
+        fragmentTransaction.commit();
+    }
 
+    public void showDetailFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(userListFragment);
+        fragmentTransaction.add(R.id.fragments_frame, detailFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void playGame(UserProfile user) {
         Intent intent = new Intent(this, TriviaActivity.class);
-        intent.putExtra("USERNAME", user);
-        intent.putExtra("BIRTHDATE", birthdate);
+        intent.putExtra("USERID", user.getUserId());
+        intent.putExtra("BIRTHDATE", user.getBirthDate());
         startActivity(intent);
     }
 }

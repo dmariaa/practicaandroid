@@ -32,4 +32,15 @@
     <string name="trivia_end_title">Fin de la partida</string>
     <string name="aqui_tienes_tu_progreso">Aqui tienes tu progreso</string>
     <string name="volver_a_jugar">Volver a jugar</string>
+    <string name="action_play">¡Jugar!</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">Bienvenido!</string>
+    <string name="login">Entra en wanatrivial</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

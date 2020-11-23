@@ -1,19 +1,16 @@
 package es.dmariaa.practica1.questiontypes;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +58,6 @@ public class MultichoiceQuestionFragment extends BaseQuestionFragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        TextView textView = view.findViewById(R.id.textView_multichoice);
-        Question question = this.getQuestion();
-        textView.setText(Html.fromHtml(question.getDescription()));
 
         options = new ArrayList<CheckBox>();
         createOptionButtons(question);

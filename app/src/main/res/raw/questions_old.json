@@ -1,0 +1,546 @@
+[
+  {
+    "id": 1,
+    "type": "choice",
+    "minimum_age": 10,
+    "description": "¿En qué países existe igualdad real entre hombres y mujeres?",
+    "image": "q1.png",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Noruega, Suecia, Holanda",
+        "value": 0
+      },
+      {
+        "id": 2,
+        "description": "Solo en Noruega",
+        "value": 0
+      },
+      {
+        "id": 3,
+        "description": "Estados unidos, Noruega y España",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "En ningún pais del mundo",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "type": "choice",
+    "minimum_age": 10,
+    "description": "¿Qué situaciones de <b>desigualdad</b> crees que existen en nuestro país?",
+    "image": "q2.png",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Brecha salarial",
+        "value": 0
+      },
+      {
+        "id": 2,
+        "description": "Techo de cristal",
+        "value": 0
+      },
+      {
+        "id": 3,
+        "description": "Violencia de género",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "Todas ellas",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "type": "choice",
+    "minimum_age": 10,
+    "description": "¿Cuantas de nuestras comunidades autónomas son presididas por mujeres?",
+    "image": "q3.png",
+    "answers": [
+      {
+        "id": 1,
+        "description": "1",
+        "value": 0
+      },
+      {
+        "id": 2,
+        "description": "4",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "description": "8",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "5",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "type": "choice",
+    "minimum_age": 10,
+    "description": "Las españolas dedican más tiempo que los hombres al trabajo de cuidados<br>¿Cuántas horas más al día?",
+    "image": "q4.png",
+    "answers": [
+      {
+        "id": 1,
+        "description": "1 hora y 45 minutos",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "3 horas",
+        "value": 0
+      },
+      {
+        "id": 3,
+        "description": "25 minutos",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "48 minutos",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "type": "choice",
+    "minimum_age": 10,
+    "description": "¿Como se llama la discriminación de personas de un sexo por considerarlo inferior?",
+    "image": "q5.png",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Machismo",
+        "value": 0
+      },
+      {
+        "id": 2,
+        "description": "Sexismo",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "description": "Feminismo",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "Racismo",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "type": "choice",
+    "minimum_age": 10,
+    "description": "¿Que porcentaje de mujeres a nivel mundial han sufrido violencia física y/o sexual?",
+    "image": "q6.png",
+    "answers": [
+      {
+        "id": 1,
+        "description": "70%",
+        "value": 0
+      },
+      {
+        "id": 2,
+        "description": "35%",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "description": "20%",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "50%",
+        "value": 0
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "type": "choice",
+    "minimum_age": 10,
+    "description": "Existen formas de violencia hacia las mujeres y las niñas que se podrían definir como las más radicales, ¿cuáles son?",
+    "image": "q7.png",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Mutilación genital femenina",
+        "value": 0
+      },
+      {
+        "id": 2,
+        "description": "Matrimonio infantil",
+        "value": 0
+      },
+      {
+        "id": 3,
+        "description": "Trata con fines de explotación",
+        "value": 0
+      },
+      {
+        "id": 4,
+        "description": "Todas ellas",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "type": "multichoice",
+    "minimun_age": 13,
+    "description": "¿En qué países de la UE crees que esa brecha salarial es mayor?",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Hungría",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "Eslovaquia",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "description": "Republica Checa",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "description": "Alemania",
+        "value": 1
+      },
+      {
+        "id": 5,
+        "description": "Austria",
+        "value": 1
+      },
+      {
+        "id": 6,
+        "description": "Estonia",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "type": "multichoice",
+    "minimun_age": 13,
+    "description": "¿Cuáles son las causas de esa brecha salarial?",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Discriminación en el trabajo",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "Los sectores en los que se emplean las mujeres mayoritariamente tienen salarios más bajos",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "description": "El trabajo de cuidados es soportado mayoritariamente por mujeres y, en muchas ocasiones, no supone remuneración",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "description": "Las mujeres tienen menos oportunidad de acceder a puestos de mayor responsabilidad en los que se cobra más",
+        "value": 1
+      },
+      {
+        "id": 5,
+        "description": "Las competencias y capacidades de las mujeres están infravaloradas",
+        "value": 1
+      },
+      {
+        "id": 6,
+        "description": "Los roles de género condicionan, desde edades muy tempranas, la elección de la carrera profesional",
+        "value": 1
+      },
+      {
+        "id": 7,
+        "description": "La conciliación entre trabajo y familia hace que las mujeres trabajen menos horas que los hombres",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "type": "multichoice",
+    "minimun_age": 13,
+    "description": "¿Cuáles son las principales ventajas de eliminar la brecha salarial?",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Sociedad más justa e igualitaria",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "Empleos de mayor calidad para todos/as",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "description": "Supondría un beneficio para empresas, trabajadores/as y economía",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "description": "Supondría una base para la recuperación y crecimiento económicos",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "type": "multichoice",
+    "minimun_age": 13,
+    "description": "¿Cuáles son las causas por las que se da el techo de cristal?",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Las mujeres siguen siendo las que se ocupan mayoritariamente de los cuidados en la familia",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "La maternidad es un obstáculo para las mujeres en su carrera profesional, porque se da por hecho que van a faltar más al trabajo",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "description": "Una cultura empresarial muy masculinizada",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "description": "La capacidad de liderazgo de las mujeres sigue estando infravalorada",
+        "value": 1
+      },
+      {
+        "id": 5,
+        "description": "Las mujeres siguen teniendo que demostrar más méritos que los hombres para ascender en su vida laboral",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "type": "multichoice",
+    "minimun_age": 13,
+    "description": "¿Cuáles de estos han sido hitos del feminismo en la historia?",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "1791: publicación de la Declaración de derechos de la mujer y la ciudadana",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "1869: inicio del movimiento sufragista",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "description": "1893: voto femenino en Nueva Zelanda. Primer país en el que votan las mujeres",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "description": "1908: comienzo de los movimientos laborales feministas",
+        "value": 1
+      },
+      {
+        "id": 5,
+        "description": "1977: oficialización del Día Internacional de la Mujer",
+        "value": 1
+      },
+      {
+        "id": 6,
+        "description": "2017: gran marcha internacional por los derechos de la mujer",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "type": "multichoice",
+    "minimun_age": 13,
+    "description": "¿Cuáles de estas metas propondrías para alcanzar la igualdad de género a nivel mundial?",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Acceso universal a la educación obligatoria y universitaria",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "description": "Más mujeres en la esfera pública",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "description": "Más mujeres en puestos directivos",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "description": "Paridad de salarios",
+        "value": 1
+      },
+      {
+        "id": 5,
+        "description": "Paridad en reparto de trabajo de cuidados",
+        "value": 1
+      },
+      {
+        "id": 6,
+        "description": "Protección contra la violencia de género",
+        "value": 1
+      },
+      {
+        "id": 7,
+        "description": "Protección contra prácticas que afectan a las niñas. mutilación genial y matrimonio infantil",
+        "value": 1
+      },
+      {
+        "id": 8,
+        "description": "Acceso de la mujer a la propiedad",
+        "value": 1
+      },
+      {
+        "id": 9,
+        "description": "Educar en igualdad a todos/as",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "type": "truefalse",
+    "minimun_age": 10,
+    "description": "La igualdad de género es un derecho humano básico, necesario para conseguir un desarrollo justo",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Verdadero",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "type": "truefalse",
+    "minimun_age": 10,
+    "description": "Los logros de las mujeres siguen estando invisibilizados en todos los ámbitos de la sociedad",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "Verdadero",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "type": "value",
+    "minimun_age": 10,
+    "description": "¿Cuanto ganan de menos las mujeres en la Unión Europea?",
+    "feedback": "Por término medio, las mujeres de la UE ganan alrededor de un 15% menos por hora que los hombres",
+    "answers": [
+      {
+        "id": 1,
+        "description": "",
+        "value": 15,
+        "valuemin": 0,
+        "valuemax": 100,
+        "valueformat": "%d%%",
+        "step": 5
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "type": "value",
+    "minimun_age": 10,
+    "description": "¿Cuantas mujeres/niñas están mutiladas genitalmente (en millones)?",
+    "feedback": "Como mínimo, 200 millones de mujeres y niñas entre 15 y 19 años de edad han sufrido la mutilación genital femenina en los 30 países en los que existen datos representativos sobre prevalencia.",
+    "answers": [
+      {
+        "id": 1,
+        "description": "",
+        "value": 200,
+        "valuemin": 0,
+        "valuemax": 800,
+        "valueformat": "%dMM",
+        "step": 100
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "type": "value",
+    "minimun_age": 10,
+    "description": "¿Cuantas mujeres/niñas en la actualidad fueron casadas de forma forzosa antes de los 18 años (en millones)?",
+    "feedback": "Actualmente, 650 millones de niñas y mujeres fueron casadas antes de cumplir los 18 años.",
+    "answers": [
+      {
+        "id": 1,
+        "description": "",
+        "value": 650,
+        "valuemin": 0,
+        "valuemax": 800,
+        "valueformat": "%dMM",
+        "step": 50
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "type": "value",
+    "minimun_age": 10,
+    "description": "La trata de personas es la esclavitud del siglo XXI y afecta de forma mayoritaria a mujeres y niñas. ¿En qué porcentaje?",
+    "feedback": "",
+    "answers": [
+      {
+        "id": 1,
+        "description": "",
+        "value": 75,
+        "valuemin": 0,
+        "valuemax": 100,
+        "valueformat": "%d%%",
+        "step": 5
+      }
+    ]
+  }
+]

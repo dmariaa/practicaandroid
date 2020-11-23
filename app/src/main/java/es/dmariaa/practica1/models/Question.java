@@ -1,17 +1,8 @@
 package es.dmariaa.practica1.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Question {
-    public enum QuestionType {
-        @SerializedName("choice") CHOICE,
-        @SerializedName("multichoice") MULTICHOICE,
-        @SerializedName("truefalse") TRUEFALSE,
-        @SerializedName("value") VALUE
-    }
-
     int id;
     QuestionType type;
     String image;
@@ -19,6 +10,11 @@ public class Question {
     String description;
     String feedback;
     List<Answer> answers;
+    String video;
+
+    public String getVideo() {
+        return video;
+    }
 
     public int getId() {
         return id;
