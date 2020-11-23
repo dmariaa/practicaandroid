@@ -76,28 +76,6 @@ public class ChoiceQuestionFragment extends BaseQuestionFragment implements Radi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        ImageView imageView = view.findViewById(R.id.imageview_questionimage);
-
-        if(question.getImage() != null && !question.getImage().isEmpty()) {
-            try {
-                String imageFile = String.format("question-images/%s", question.getImage());
-                InputStream questionImage = getResources().getAssets().open(imageFile);
-                Bitmap questionImageBitmap = BitmapFactory.decodeStream(questionImage);
-                imageView.setImageBitmap(questionImageBitmap);
-                imageView.setVisibility(View.VISIBLE);
-            } catch (IOException e) {
-                e.printStackTrace();
-                imageView.setVisibility(View.INVISIBLE);
-            }
-        } else {
-            imageView.setVisibility(View.INVISIBLE);
-        }
-
-        TextView textView = view.findViewById(R.id.textView_choice);
-        Question question = this.getQuestion();
-        textView.setText(Html.fromHtml(question.getDescription()));
-
         createOptionButtons(question);
     }
 

@@ -1,20 +1,29 @@
 package es.dmariaa.practica1;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.MediaController;
+import android.widget.TextView;
+import android.widget.VideoView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Predicate;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -25,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 import es.dmariaa.practica1.dialogs.AnswerResultDialogFragment;
+import es.dmariaa.practica1.interfaces.OnQuestionAnsweredListener;
 import es.dmariaa.practica1.interfaces.OnResultClosedListener;
 import es.dmariaa.practica1.models.Question;
 import es.dmariaa.practica1.models.QuestionResult;
@@ -32,7 +42,6 @@ import es.dmariaa.practica1.models.Result;
 import es.dmariaa.practica1.questiontypes.BaseQuestionFragment;
 import es.dmariaa.practica1.questiontypes.ChoiceQuestionFragment;
 import es.dmariaa.practica1.questiontypes.MultichoiceQuestionFragment;
-import es.dmariaa.practica1.interfaces.OnQuestionAnsweredListener;
 import es.dmariaa.practica1.questiontypes.TrueFalseQuestionFragment;
 import es.dmariaa.practica1.questiontypes.ValueQuestionFragment;
 
@@ -44,6 +53,10 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     int currentQuestion = 0;
     BaseQuestionFragment currentFragment;
     boolean showAnswer = true;
+
+    VideoView questionVideo;
+    ImageView questionImage;
+    TextView questionDescription;
 
     /**
      * Loads questions from json
@@ -58,7 +71,8 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             this.questions = questions;
 
             // Filtering and shuffling questions
-            // filterQuestions(q -> q.getType() == Question.QuestionType.VALUE);
+            // filterQuestions(q -> q.getType() == QuestionType.CHOICE);
+            // filterQuestions(q -> q.getVideo() != null);
             Collections.shuffle(this.questions);
 
             Log.println(Log.DEBUG, "TriviaActivity", "Leidas " + questions.size() + " preguntas");
@@ -119,8 +133,37 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             fragmentTransaction.commit();
             currentFragment = fragment;
 
+            showQuestionDescription(question);
             setCurrentQuestionTitle();
         }
+    }
+
+    private void showQuestionDescription(Question question) {
+        if(question.getImage() != null && !question.getImage().isEmpty()) {
+            try {
+                questionImage.setVisibility(View.VISIBLE);
+                questionVideo.setVisibility(View.GONE);
+
+                String imageFile = String.format("question-images/%s", question.getImage());
+                InputStream questionImageStream = getResources().getAssets().open(imageFile);
+                Bitmap questionImageBitmap = BitmapFactory.decodeStream(questionImageStream);
+                questionImage.setImageBitmap(questionImageBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+                questionImage.setVisibility(View.GONE);
+            }
+        } else if(question.getVideo() != null && !question.getVideo().isEmpty()) {
+            questionImage.setVisibility(View.GONE);
+            questionVideo.setVisibility(View.VISIBLE);
+
+            MediaController mediaController = new MediaController(this);
+            questionVideo.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/raw/" + question.getVideo()));
+            // questionVideo.setMediaController(mediaController);
+            questionVideo.requestFocus();
+            questionVideo.start();
+        }
+
+        questionDescription.setText(Html.fromHtml(question.getDescription()));
     }
 
     private void setCurrentQuestionTitle() {
@@ -156,8 +199,16 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trivia);
 
-        String username = getIntent().getStringExtra("USERNAME");
+        String username = getIntent().getStringExtra("USERID");
         String birthdate = getIntent().getStringExtra("BIRTHDATE");
+
+        if(username==null) {
+            username = "Test username";
+        }
+
+        if(birthdate==null) {
+            birthdate = "01/01/1970";
+        }
 
         result = new Result();
         result.setUser(username);
@@ -167,6 +218,10 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         confirmButton = (FloatingActionButton) findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
         confirmButton.hide();
+
+        questionDescription = findViewById(R.id.question_text);
+        questionImage = findViewById(R.id.question_image);
+        questionVideo = findViewById(R.id.question_video);
 
         loadQuestions();
         loadQuestionFragment(questions.get(currentQuestion));

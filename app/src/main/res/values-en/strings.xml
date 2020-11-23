@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">practica1</string>
+    <string name="verdadero_o_falso">True or false?</string>
+    <string name="falso">False</string>
+    <string name="verdadero">True</string>
+    <string name="elige_una">Choose one of the available options</string>
+    <string name="elige_varias">"Choose all correct options "</string>
+    <string name="selecciona_verdaderofalso">Use the switch to choose your answer</string>
+    <string name="elige_un_valor">Use the slider to choose the right value</string>
+    <string name="respuesta_correcta">Correct answer!</string>
+    <string name="respuesta_equivocada">Wrong answer</string>
+    <string name="partida_finalizada">Game ended</string>
+</resources>

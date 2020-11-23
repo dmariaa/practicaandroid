@@ -2,12 +2,10 @@ package es.dmariaa.practica1.questiontypes;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,10 +43,6 @@ public class TrueFalseQuestionFragment extends BaseQuestionFragment implements C
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView textView = view.findViewById(R.id.textView_truefalse);
-        Question question = this.getQuestion();
-        textView.setText(Html.fromHtml(question.getDescription()));
-
         createOptionButton(question);
     }
 
@@ -63,19 +57,6 @@ public class TrueFalseQuestionFragment extends BaseQuestionFragment implements C
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-        /*
-        TextView falseText = getView().findViewById(R.id.falseText);
-        TextView trueText = getView().findViewById(R.id.trueText);
-
-        if (isChecked){
-            falseText.setAlpha(0);
-            trueText.setAlpha(1);
-        }else{
-            trueText.setAlpha(0);
-            falseText.setAlpha(1);
-        }
-        */
-
         userAnswered();
     }
 

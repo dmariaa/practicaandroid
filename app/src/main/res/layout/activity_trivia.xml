@@ -4,23 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".TriviaActivity">
 
-    <FrameLayout
-        android:id="@+id/base_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <LinearLayout
+        android:id="@+id/question_video_layout"
+        android:layout_width="380dp"
+        android:layout_height="214dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/question_image"
+            android:layout_width="108dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.50"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <VideoView
+            android:id="@+id/question_video"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/question_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/pregunta_placeholder"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question_video_layout" />
+
+
+    <FrameLayout
+        android:id="@+id/base_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question_text">
 
         <FrameLayout
             android:id="@+id/question_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="24dp">
-
         </FrameLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -28,12 +72,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:clickable="true"
             android:contentDescription="@string/confirmar_respuesta"
+            android:focusable="true"
             android:src="@drawable/ic_baseline_done_24"
-            android:visibility="visible"
-            android:focusable="true" />
+            android:visibility="visible" />
 
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
