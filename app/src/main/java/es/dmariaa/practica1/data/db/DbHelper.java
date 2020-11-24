@@ -3,7 +3,6 @@ package es.dmariaa.practica1.data.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.FileUtils;
 
 import androidx.annotation.Nullable;
 
@@ -32,7 +31,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static void copyLocalDatabase(Context context) {
         File file = context.getDatabasePath(DbContract.DB_NAME);
 
-        if (!file.exists()) {
+        if (!file.exists() || true) { // FORCE COPY FOR TESTING
             try {
                 InputStream assetsFile = context.getAssets().open(DbContract.DB_NAME);
                 OutputStream databaseFile = new FileOutputStream(file);

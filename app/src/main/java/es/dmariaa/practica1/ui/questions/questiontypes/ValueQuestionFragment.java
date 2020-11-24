@@ -1,4 +1,4 @@
-package es.dmariaa.practica1.questiontypes;
+package es.dmariaa.practica1.ui.questions.questiontypes;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +15,7 @@ import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.Slider;
 
 import es.dmariaa.practica1.R;
-import es.dmariaa.practica1.models.Answer;
+import es.dmariaa.practica1.data.model.Answer;
 
 /**
  * A simple {@link Fragment} subclass.

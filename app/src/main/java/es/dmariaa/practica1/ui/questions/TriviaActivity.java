@@ -1,4 +1,4 @@
-package es.dmariaa.practica1;
+package es.dmariaa.practica1.ui.questions;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,36 +19,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Predicate;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import es.dmariaa.practica1.R;
+import es.dmariaa.practica1.TriviaEndActivity;
+import es.dmariaa.practica1.data.model.Question;
 import es.dmariaa.practica1.dialogs.AnswerResultDialogFragment;
 import es.dmariaa.practica1.interfaces.OnQuestionAnsweredListener;
 import es.dmariaa.practica1.interfaces.OnResultClosedListener;
-import es.dmariaa.practica1.models.Question;
-import es.dmariaa.practica1.models.QuestionResult;
-import es.dmariaa.practica1.models.Result;
-import es.dmariaa.practica1.questiontypes.BaseQuestionFragment;
-import es.dmariaa.practica1.questiontypes.ChoiceQuestionFragment;
-import es.dmariaa.practica1.questiontypes.MultichoiceQuestionFragment;
-import es.dmariaa.practica1.questiontypes.TrueFalseQuestionFragment;
-import es.dmariaa.practica1.questiontypes.ValueQuestionFragment;
+import es.dmariaa.practica1.ui.questions.questiontypes.BaseQuestionFragment;
+import es.dmariaa.practica1.ui.questions.questiontypes.ChoiceQuestionFragment;
+import es.dmariaa.practica1.ui.questions.questiontypes.MultichoiceQuestionFragment;
+import es.dmariaa.practica1.ui.questions.questiontypes.TrueFalseQuestionFragment;
+import es.dmariaa.practica1.ui.questions.questiontypes.ValueQuestionFragment;
 
 public class TriviaActivity extends AppCompatActivity implements View.OnClickListener, OnQuestionAnsweredListener {
+    QuestionsViewModel viewModel;
+
     List<Question> questions;
-    Result result;
 
     FloatingActionButton confirmButton;
     int currentQuestion = 0;
@@ -63,26 +59,26 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Loads questions from json
      */
-    private void loadQuestions() {
-        try {
-            InputStream inputStream = this.getResources().openRawResource(R.raw.questions);
-            Reader reader = new InputStreamReader(inputStream, "utf-8");
-
-            Type questionListType = new TypeToken<ArrayList<Question>>() {}.getType();
-            List<Question> questions = new Gson().fromJson(reader, questionListType);
-            this.questions = questions;
-
-            // Filtering and shuffling questions
-            // filterQuestions(q -> q.getType() == QuestionType.CHOICE);
-            // filterQuestions(q -> q.getVideo() != null);
-            Collections.shuffle(this.questions);
-
-            Log.println(Log.DEBUG, "TriviaActivity", "Leidas " + questions.size() + " preguntas");
-        } catch (UnsupportedEncodingException e) {
-            // e.printStackTrace();
-            Log.println(Log.ERROR, "TriviaActivity", Log.getStackTraceString(e));
-        }
-    }
+//    private void loadQuestions() {
+//        try {
+//            InputStream inputStream = this.getResources().openRawResource(R.raw.questions);
+//            Reader reader = new InputStreamReader(inputStream, "utf-8");
+//
+//            Type questionListType = new TypeToken<ArrayList<Question>>() {}.getType();
+//            List<Question> questions = new Gson().fromJson(reader, questionListType);
+//            this.questions = questions;
+//
+//            // Filtering and shuffling questions
+//            // filterQuestions(q -> q.getType() == QuestionType.CHOICE);
+//            // filterQuestions(q -> q.getVideo() != null);
+//            Collections.shuffle(this.questions);
+//
+//            Log.println(Log.DEBUG, "TriviaActivity", "Leidas " + questions.size() + " preguntas");
+//        } catch (UnsupportedEncodingException e) {
+//            // e.printStackTrace();
+//            Log.println(Log.ERROR, "TriviaActivity", Log.getStackTraceString(e));
+//        }
+//    }
 
     /**
      * Filters questions using the given predicate
@@ -210,18 +206,6 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         String username = getIntent().getStringExtra("USERID");
         String birthdate = getIntent().getStringExtra("BIRTHDATE");
 
-        if(username==null) {
-            username = "Test username";
-        }
-
-        if(birthdate==null) {
-            birthdate = "01/01/1970";
-        }
-
-        result = new Result();
-        result.setUser(username);
-        result.setBirthdate(birthdate);
-        result.setResults(new ArrayList<QuestionResult>());
 
         confirmButton = (FloatingActionButton) findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
@@ -232,9 +216,17 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         questionImage = findViewById(R.id.question_image);
         questionVideo = findViewById(R.id.question_video);
 
-        loadQuestions();
-        loadQuestionFragment(questions.get(currentQuestion));
+        QuestionsViewModelFactory factory = new QuestionsViewModelFactory(this);
+        viewModel = new ViewModelProvider(this, factory).get(QuestionsViewModel.class);
+        viewModel.getQuestions().observe(this, observeQuestions);
     }
+
+    Observer<List<Question>> observeQuestions = (List<Question> questions) -> {
+        this.questions = questions;
+        loadQuestionFragment(this.questions.get(currentQuestion));
+    };
+
+
 
     @Override
     public void onClick(View view) {
@@ -243,10 +235,10 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             currentFragment.pauseQuestion(false);
 
             boolean isCorrect = currentFragment.isCorrect();
-            QuestionResult questionResult = new QuestionResult();
-            questionResult.setId(currentFragment.getQuestion().getId());
-            questionResult.setValue(isCorrect ? 1 : 0);
-            result.putQuestionResult(questionResult);
+//            QuestionResult questionResult = new QuestionResult();
+//            questionResult.setId(currentFragment.getQuestion().getId());
+//            questionResult.setValue(isCorrect ? 1 : 0);
+//            result.putQuestionResult(questionResult);
 
             showAnswer(isCorrect, () -> {
                 getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
@@ -255,7 +247,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
                     loadQuestionFragment(questions.get(currentQuestion));
                 } else {
                     Intent intent = new Intent(this, TriviaEndActivity.class);
-                    intent.putExtra("RESULT", result);
+//                    intent.putExtra("RESULT", result);
                     startActivity(intent);
                 }
             });

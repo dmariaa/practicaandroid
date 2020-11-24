@@ -42,4 +42,26 @@ public class DbContract {
         public static final String COLUMN_NAME_VALUE = "value";
         public static final String COLUMN_NAME_TIME = "time";
     }
+
+    public static class DbQuestions implements BaseColumns {
+        public static final String TABLE_NAME = "questions";
+        public static final String COLUMN_NAME_TYPE = "type";
+        public static final String COLUMN_NAME_MINIMUM_AGE = "minimum_age";
+        public static final String COLUMN_NAME_DESCRIPTION = "description";
+        public static final String COLUMN_NAME_ANSWER = "answer";
+        public static final String COLUMN_NAME_IMAGE = "image";
+        public static final String COLUMN_NAME_VIDEO = "video";
+        public static final String COLUMN_NAME_FEEDBACK = "feedback";
+    }
+
+    public static class DbAnswers implements BaseColumns {
+        public static final String TABLE_NAME = "answers";
+        public static final String COLUMN_NAME_DESCRIPTION = "description";
+        public static final String COLUMN_NAME_VALUE = "value";
+        public static final String COLUMN_NAME_VALUE_MIN = "valuemin";
+        public static final String COLUMN_NAME_VALUE_MAX = "valuemax";
+        public static final String COLUMN_NAME_VALUE_FORMAT = "valueformat";
+        public static final String COLUMN_NAME_STEP = "step";
+        public static final String COLUMN_NAME_QUESTION_ID = "question_id";
+    }
 }
