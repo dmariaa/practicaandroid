@@ -130,7 +130,8 @@ public class DbManager {
 
     public void saveUserResult(Result result) {
         if(result.getId()==0) {
-            this.db.insert(DbContract.DbResults.TABLE_NAME, null, generateResultContentValues(result));
+            long id = this.db.insert(DbContract.DbResults.TABLE_NAME, null, generateResultContentValues(result));
+            result.setId((int)id);
         } else {
             this.db.update(DbContract.DbResults.TABLE_NAME,
                     generateResultContentValues(result),
@@ -139,7 +140,7 @@ public class DbManager {
 
         if(result.getQuestions().size() > 0) {
             for(int i=0; i < result.getQuestions().size(); i++) {
-                saveResultQuestion(result.getQuestions().get(i));
+                saveResultQuestion(result.getQuestions().get(i), result);
             }
         }
     }
@@ -152,7 +153,11 @@ public class DbManager {
         return contentValues;
     }
 
-    public void saveResultQuestion(ResultQuestions question) {
+    public void saveResultQuestion(ResultQuestions question, Result result) {
+        if(question.getResultsId()==0) {
+            question.setResultsId(result.getId());
+        }
+
         if(question.getId()==0) {
             this.db.insert(DbContract.DbResultsQuestions.TABLE_NAME, null, generateResultQuestionContentValues(question));
         } else {
