@@ -59,7 +59,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     FloatingActionButton confirmButton;
     int currentQuestion = 0;
     BaseQuestionFragment currentFragment;
-    boolean showAnswer = true;
+    boolean showAnswer = false;
 
     LinearLayout imageVideoContainer;
     VideoView questionVideo;
@@ -213,13 +213,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trivia);
 
-        String userIdx = getIntent().getStringExtra("USERIDX");
-
-        if(userIdx != null) {
-            currentUser = Integer.parseInt(userIdx);
-        } else {
-            currentUser = -1;
-        }
+        int userIdx = getIntent().getIntExtra("USERID", 0);
 
         confirmButton = (FloatingActionButton) findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
@@ -238,18 +232,18 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         viewModel.getQuestions().observe(this, observeQuestions);
         viewModel.getUserProfile().observe(this, observeUserProfile);
 
-        viewModel.setCurrentUser(currentUser);
+        viewModel.setCurrentUser(userIdx);
     }
 
-    Observer<UserProfile> observeUserProfile = (UserProfile userProfile) -> {
-        if(this.userProfile != null) {
+    Observer<UserProfile> observeUserProfile = (userProfile) -> {
+        if(userProfile != null) {
             this.userProfile = userProfile;
         } else {
             this.userProfile = new UserProfile();
         }
 
         java.sql.Date start = new java.sql.Date(new Date().getTime());
-        this.userResult = new Result(-1, start, null, userProfile.getId());
+        this.userResult = new Result(0, start, null, this.userProfile.getId());
 
     };
 
@@ -273,7 +267,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
 
             boolean isCorrect = currentFragment.isCorrect();
             Question question = this.questions.get(currentQuestion);
-            ResultQuestions resultQuestions = new ResultQuestions(-1, 0, question.getId(), "", isCorrect ? 1 : 0, new java.sql.Date(new Date().getTime()));
+            ResultQuestions resultQuestions = new ResultQuestions(0, this.userResult.getId(), question.getId(), "", isCorrect ? 1 : 0, new java.sql.Date(new Date().getTime()));
             this.userResult.addQuestion(resultQuestions);
 
             if(isCorrect) {
@@ -292,6 +286,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
                     loadQuestionFragment(questions.get(currentQuestion));
                 } else {
                     if(userProfile.getId() > 0) {
+                        this.userResult.setEndTime(new java.sql.Date(new Date().getTime()));
                         userProfile.addResult(this.userResult);
                         viewModel.saveUser(userProfile);
                     }

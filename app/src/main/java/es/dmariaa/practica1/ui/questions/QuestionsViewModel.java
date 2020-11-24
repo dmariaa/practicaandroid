@@ -28,15 +28,6 @@ public class QuestionsViewModel extends ViewModel {
     private MutableLiveData<UserProfile> userProfileLiveData;
 
     public MutableLiveData<UserProfile> getUserProfile() {
-        UserProfile userProfile;
-
-        if(currentUser != 0) {
-            userProfile = usersRepository.getUserProfile(currentUser);
-        } else {
-            userProfile = new UserProfile();
-        }
-
-        userProfileLiveData.postValue(userProfile);
         return userProfileLiveData;
     }
 
@@ -52,5 +43,7 @@ public class QuestionsViewModel extends ViewModel {
 
     public void setCurrentUser(int currentUser) {
         this.currentUser = currentUser;
+        UserProfile userProfile = usersRepository.getUserProfile(currentUser);
+        userProfileLiveData.postValue(userProfile);
     }
 }

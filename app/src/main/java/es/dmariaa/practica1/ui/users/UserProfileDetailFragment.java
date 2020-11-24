@@ -29,9 +29,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.FileNotFoundException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmariaa.practica1.R;
@@ -76,11 +78,8 @@ public class UserProfileDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         UserProfileListViewModelFactory factory = new UserProfileListViewModelFactory(getContext());
-        viewModel = new ViewModelProvider(requireActivity(), factory)
-                .get(UserPofileListViewModel.class);
-
+        viewModel = new ViewModelProvider(requireActivity(), factory).get(UserPofileListViewModel.class);
         viewModel.getCurrentProfile().observe(getViewLifecycleOwner(),this.currentProfileObserver);
-
         return view;
     }
 
@@ -143,8 +142,18 @@ public class UserProfileDetailFragment extends Fragment {
             avatar.setVisibility(View.INVISIBLE);
         }
 
-        if(userProfile.getResults().size() > 0) {
-            Result lastGame = userProfile.getResults().get(userProfile.getResults().size() - 1);
+        viewModel.getUserResults(userProfile.getId()).observe(getViewLifecycleOwner(), resultsObserver);
+
+        if(userProfile.getId() != 0) {
+            setReadOnlyMode();
+        } else {
+            setEditMode();
+        }
+    }
+
+    Observer<List<Result>> resultsObserver = (results) -> {
+        if(results.size() > 0) {
+            Result lastGame = results.get(results.size() - 1);
 
             SimpleDateFormat gameDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
             String dateFormatted = gameDateFormat.format(lastGame.getStartTime());
@@ -153,20 +162,20 @@ public class UserProfileDetailFragment extends Fragment {
             dateFormatted = gameDateFormat.format(lastGame.getEndTime());
             lastGameStart.setText(dateFormatted);
 
-            result.setText("0/0");
-            score.setText("0%");
+            int totalAnswers = lastGame.getTotalAnswers();
+            int rightAnswers = lastGame.getRightAnswers();
+            float pct = (float)rightAnswers / (float) totalAnswers;
+
+            result.setText(String.format("%d/%d", rightAnswers, totalAnswers));
+
+            NumberFormat format = NumberFormat.getPercentInstance();
+            score.setText(format.format(pct));
 
             lastGameCard.setVisibility(View.VISIBLE);
         } else {
             lastGameCard.setVisibility(View.GONE);
         }
-
-        if(userProfile.getId() != 0) {
-            setReadOnlyMode();
-        } else {
-            setEditMode();
-        }
-    }
+    };
 
     private void setReadOnlyMode() {
         displayName.setEnabled(false);

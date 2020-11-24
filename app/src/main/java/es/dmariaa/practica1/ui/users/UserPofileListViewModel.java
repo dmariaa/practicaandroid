@@ -19,15 +19,17 @@ public class UserPofileListViewModel extends ViewModel {
         this.currentProfile = new MutableLiveData<UserProfile>();
     }
 
-    public LiveData<List<Result>> getUserResults(String userId) {
-        return repository.getUserResults(userId);
+    public LiveData<List<Result>> getUserResults(int userIdx) {
+        return repository.getUserResults(userIdx);
     }
 
     public LiveData<List<UserProfile>> getUsersProfiles() {
         return repository.getUsersList();
     }
 
-    public LiveData<UserProfile> getCurrentProfile() { return currentProfile; }
+    public LiveData<UserProfile> getCurrentProfile() {
+        return currentProfile;
+    }
 
     public void saveCurrentProfile(UserProfile currentProfile) {
         this.repository.saveUserProfile(currentProfile);
