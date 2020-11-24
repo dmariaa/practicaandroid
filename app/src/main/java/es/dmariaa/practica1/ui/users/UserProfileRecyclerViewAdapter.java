@@ -2,7 +2,6 @@ package es.dmariaa.practica1.ui.users;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import es.dmariaa.practica1.R;
@@ -46,7 +43,7 @@ public class UserProfileRecyclerViewAdapter extends RecyclerView.Adapter<UserPro
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         UserProfile userProfile = userProfileList.get(position);
-        Bitmap avatar = this.getAvatarBitmap(userProfile.getPhoto());
+        Bitmap avatar = userProfile.getPhotoAsBitmap(context);
 
         if(avatar != null) {
             holder.mAvatar.setImageBitmap(avatar);
@@ -60,31 +57,13 @@ public class UserProfileRecyclerViewAdapter extends RecyclerView.Adapter<UserPro
         }
 
         holder.mName.setText(userProfile.getDisplayName());
-        holder.mLastMatch.setText(userProfile.getBirthDate().toString());
+        holder.mLastMatch.setText(userProfile.getBirthDateFormatted());
     }
 
     private Drawable getAvatarBackground(UserProfile profile) {
         Drawable drawable = context.getResources().getDrawable(R.drawable.circle);
         drawable.setColorFilter(profile.getProfileColor(), PorterDuff.Mode.MULTIPLY);
         return drawable;
-    }
-
-    /**
-     * Inspired from:
-     * https://android.jlelse.eu/avatarview-custom-implementation-of-imageview-4bcf0714d09d
-     * @param avatar
-     * @return
-     */
-    private Bitmap getAvatarBitmap(String avatar) {
-        try {
-            String imageFile = String.format("question-images/%s", avatar);
-            InputStream questionImage = this.context.getResources().getAssets().open(imageFile);
-            Bitmap questionImageBitmap = BitmapFactory.decodeStream(questionImage);
-            return questionImageBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override

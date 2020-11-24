@@ -132,4 +132,11 @@ public class UsersProfileRepository {
 
         return userProfile;
     }
+
+    public void saveUserProfile(UserProfile profile) {
+        dbManager.saveUser(profile);
+
+        usersLiveData = new MutableLiveData<List<UserProfile>>();
+        this.loadUsers();
+    }
 }

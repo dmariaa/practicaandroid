@@ -1,8 +1,11 @@
 package es.dmariaa.practica1.data.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import es.dmariaa.practica1.data.model.UserProfile;
 
 public class DbManager {
     private DbHelper dbHelper;
@@ -74,5 +77,26 @@ public class DbManager {
         return db.rawQuery(query, new String[] {
            userid
         });
+    }
+
+    public void saveUser(UserProfile userProfile) {
+        if(userProfile.getId()==0) {
+            this.db.insert(DbContract.DbUserProfiles.TABLE_NAME, null,
+                generateUserProfileContentValues(userProfile));
+        } else {
+            this.db.update(DbContract.DbUserProfiles.TABLE_NAME,
+                generateUserProfileContentValues(userProfile), "_id=?",
+                new String[] { String.valueOf(userProfile.getId()) });
+
+        }
+    }
+
+    private ContentValues generateUserProfileContentValues(UserProfile userProfile) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbContract.DbUserProfiles.COLUMN_NAME_USER_ID, userProfile.getUserId());
+        contentValues.put(DbContract.DbUserProfiles.COLUMN_NAME_NAME, userProfile.getDisplayName());
+        contentValues.put(DbContract.DbUserProfiles.COLUMN_NAME_BIRTH_DATE, userProfile.getBirthDate().getTime());
+        contentValues.put(DbContract.DbUserProfiles.COLUMN_NAME_PHOTO, userProfile.getPhoto());
+        return contentValues;
     }
 }

@@ -76,7 +76,9 @@
             android:clickable="true"
             android:contentDescription="@string/confirmar_respuesta"
             android:focusable="true"
-            android:src="@drawable/ic_baseline_done_24"
+            app:backgroundTint="@color/colorPrimary"
+            app:tint="@color/white"
+            app:srcCompat="@drawable/ic_baseline_done_24"
             android:visibility="visible" />
 
     </FrameLayout>
