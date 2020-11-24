@@ -1,34 +1,21 @@
-package es.dmariaa.practica1.questiontypes;
+package es.dmariaa.practica1.ui.questions.questiontypes;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageDecoder;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.AccessMode;
-
 import es.dmariaa.practica1.R;
-import es.dmariaa.practica1.models.Answer;
-import es.dmariaa.practica1.models.Question;
+import es.dmariaa.practica1.data.model.Answer;
+import es.dmariaa.practica1.data.model.Question;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,4 +1,4 @@
-package es.dmariaa.practica1.questiontypes;
+package es.dmariaa.practica1.ui.questions.questiontypes;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import es.dmariaa.practica1.R;
 import es.dmariaa.practica1.interfaces.OnQuestionAnsweredListener;
-import es.dmariaa.practica1.models.Question;
+import es.dmariaa.practica1.data.model.Question;
 
 public abstract class BaseQuestionFragment extends Fragment {
     OnQuestionAnsweredListener listener;

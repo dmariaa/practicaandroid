@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import es.dmariaa.practica1.data.model.UserProfile;
+import es.dmariaa.practica1.ui.questions.TriviaActivity;
 import es.dmariaa.practica1.ui.users.UserProfileDetailFragment;
 import es.dmariaa.practica1.ui.users.UserProfileListFragment;
 

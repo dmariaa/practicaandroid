@@ -99,4 +99,26 @@ public class DbManager {
         contentValues.put(DbContract.DbUserProfiles.COLUMN_NAME_PHOTO, userProfile.getPhoto());
         return contentValues;
     }
+
+    public Cursor getAllQuestions() {
+        String query = "select questions._id as questions__id,\n" +
+                "  questions.description as questions_description,\n" +
+                "  questions.feedback as questions_feedback,\n" +
+                "  questions.image as questions_image,\n" +
+                "  questions.minimum_age as questions_minimum_age,\n" +
+                "  questions.type as questions_type,\n" +
+                "  questions.video as questions_video,\n" +
+                "  answers._id as answers__id,\n" +
+                "  answers.description as answers_description,\n" +
+                "  answers.question_id as answers_question_id,\n" +
+                "  answers.step as answers_step,\n" +
+                "  answers.value as answers_value,\n" +
+                "  answers.valueformat as answers_valueformat,\n" +
+                "  answers.valuemax as answers_valuemax,\n" +
+                "  answers.valuemin as answers_valuemin\n" +
+                "from questions\n" +
+                "left join answers on questions._id=answers.question_id;\n";
+
+        return db.rawQuery(query, null);
+    }
 }

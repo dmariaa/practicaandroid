@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TriviaActivity"  android:noHistory="true">
+        <activity android:name=".ui.questions.TriviaActivity"  android:noHistory="true">
         </activity>
     </application>
 

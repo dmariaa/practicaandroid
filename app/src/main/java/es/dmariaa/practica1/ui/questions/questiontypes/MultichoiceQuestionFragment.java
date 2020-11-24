@@ -1,4 +1,4 @@
-package es.dmariaa.practica1.questiontypes;
+package es.dmariaa.practica1.ui.questions.questiontypes;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.dmariaa.practica1.R;
-import es.dmariaa.practica1.models.Answer;
-import es.dmariaa.practica1.models.Question;
+import es.dmariaa.practica1.data.model.Answer;
+import es.dmariaa.practica1.data.model.Question;
 
 /**
  * A simple {@link Fragment} subclass.

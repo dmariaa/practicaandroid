@@ -1,4 +1,4 @@
-package es.dmariaa.practica1.questiontypes;
+package es.dmariaa.practica1.ui.questions.questiontypes;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import es.dmariaa.practica1.R;
-import es.dmariaa.practica1.models.Question;
+import es.dmariaa.practica1.data.model.Question;
 
 /**
  * A simple {@link Fragment} subclass.
