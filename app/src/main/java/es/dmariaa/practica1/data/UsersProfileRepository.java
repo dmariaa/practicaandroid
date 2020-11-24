@@ -66,16 +66,15 @@ public class UsersProfileRepository {
 
     private MutableLiveData<List<Result>> userResultsLiveData;
 
-    public LiveData<List<Result>> getUserResults(String usrId) {
+    public LiveData<List<Result>> getUserResults(int usrId) {
         if(userResultsLiveData == null) {
             userResultsLiveData = new MutableLiveData<List<Result>>();
             this.loadResults(usrId);
         }
-
         return userResultsLiveData;
     }
 
-    private void loadResults(String usrId) {
+    private void loadResults(int usrId) {
         Handler handler = new Handler();
         handler.post(() -> {
             List<Result> results = new ArrayList<>();
@@ -84,10 +83,10 @@ public class UsersProfileRepository {
             Result currentResult = null;
 
             while(cursor.moveToNext()) {
-                int resultId = cursor.getInt(cursor.getColumnIndex(DbContract.DbResults._ID));
-                long startTime = cursor.getLong(cursor.getColumnIndex(DbContract.DbResults.COLUMN_NAME_START_TIME));
-                long endTime = cursor.getLong(cursor.getColumnIndex(DbContract.DbResults.COLUMN_NAME_END_TIME));
-                int usersProfilesId = cursor.getInt(cursor.getColumnIndex(DbContract.DbResults.COLUMN_NAME_USERS_PROFILES_ID));
+                int resultId = cursor.getInt(cursor.getColumnIndex(DbContract.DbResults.TABLE_NAME + "_" + DbContract.DbResults._ID));
+                long startTime = cursor.getLong(cursor.getColumnIndex(DbContract.DbResults.TABLE_NAME + "_" + DbContract.DbResults.COLUMN_NAME_START_TIME));
+                long endTime = cursor.getLong(cursor.getColumnIndex(DbContract.DbResults.TABLE_NAME + "_" + DbContract.DbResults.COLUMN_NAME_END_TIME));
+                int usersProfilesId = cursor.getInt(cursor.getColumnIndex(DbContract.DbResults.TABLE_NAME + "_" + DbContract.DbResults.COLUMN_NAME_USERS_PROFILES_ID));
 
                 if(currentResult==null || currentResult.getId() != resultId) {
                     if(currentResult != null) {
@@ -97,12 +96,12 @@ public class UsersProfileRepository {
                     currentResult = new Result(resultId, new Date(startTime), new Date(endTime), usersProfilesId);
                 }
 
-                int resultQuestionId = cursor.getInt(cursor.getColumnIndex(DbContract.DbResultsQuestions._ID));
-                int resultQuestionResultsId = cursor.getInt(cursor.getColumnIndex(DbContract.DbResultsQuestions.COLUMN_NAME_RESULTS_ID));
-                int resultQuestionQuestionId = cursor.getInt(cursor.getColumnIndex(DbContract.DbResultsQuestions.COLUMN_NAME_QUESTION_ID));
-                String resultQuestionAnswer = cursor.getString(cursor.getColumnIndex(DbContract.DbResultsQuestions.COLUMN_NAME_ANSWER));
-                float resultQuestionValue = cursor.getFloat(cursor.getColumnIndex(DbContract.DbResultsQuestions.COLUMN_NAME_VALUE));
-                long resultQuestionTime = cursor.getLong(cursor.getColumnIndex(DbContract.DbResultsQuestions.COLUMN_NAME_TIME));
+                int resultQuestionId = cursor.getInt(cursor.getColumnIndex(DbContract.DbResultsQuestions.TABLE_NAME + "_" + DbContract.DbResultsQuestions._ID));
+                int resultQuestionResultsId = cursor.getInt(cursor.getColumnIndex(DbContract.DbResultsQuestions.TABLE_NAME + "_" + DbContract.DbResultsQuestions.COLUMN_NAME_RESULTS_ID));
+                int resultQuestionQuestionId = cursor.getInt(cursor.getColumnIndex(DbContract.DbResultsQuestions.TABLE_NAME + "_" + DbContract.DbResultsQuestions.COLUMN_NAME_QUESTION_ID));
+                String resultQuestionAnswer = cursor.getString(cursor.getColumnIndex(DbContract.DbResultsQuestions.TABLE_NAME + "_" + DbContract.DbResultsQuestions.COLUMN_NAME_ANSWER));
+                float resultQuestionValue = cursor.getFloat(cursor.getColumnIndex(DbContract.DbResultsQuestions.TABLE_NAME + "_" + DbContract.DbResultsQuestions.COLUMN_NAME_VALUE));
+                long resultQuestionTime = cursor.getLong(cursor.getColumnIndex(DbContract.DbResultsQuestions.TABLE_NAME + "_" + DbContract.DbResultsQuestions.COLUMN_NAME_TIME));
 
                 currentResult.addQuestion(new ResultQuestions(resultQuestionId, resultQuestionResultsId,
                         resultQuestionQuestionId, resultQuestionAnswer, resultQuestionValue,
@@ -122,6 +121,7 @@ public class UsersProfileRepository {
         UserProfile userProfile = null;
 
         if(cursor.getCount() > 0) {
+            cursor.moveToNext();
             int id = cursor.getInt(cursor.getColumnIndex(DbContract.DbUserProfiles._ID));
             String userId = cursor.getString(cursor.getColumnIndex(DbContract.DbUserProfiles.COLUMN_NAME_USER_ID));
             String userName = cursor.getString(cursor.getColumnIndex(DbContract.DbUserProfiles.COLUMN_NAME_NAME));
@@ -138,6 +138,7 @@ public class UsersProfileRepository {
         UserProfile userProfile = null;
 
         if(cursor.getCount() > 0) {
+            cursor.moveToNext();
             int id = cursor.getInt(cursor.getColumnIndex(DbContract.DbUserProfiles._ID));
             String userId = cursor.getString(cursor.getColumnIndex(DbContract.DbUserProfiles.COLUMN_NAME_USER_ID));
             String userName = cursor.getString(cursor.getColumnIndex(DbContract.DbUserProfiles.COLUMN_NAME_NAME));

@@ -79,25 +79,25 @@ public class DbManager {
     }
 
 
-    public Cursor getUserResults(String userid) {
-        String query = "select results._id,\n" +
-                "       results.start_time,\n" +
-                "       results.end_time,\n" +
-                "       results.users_profiles_id,\n" +
-                "       results_questions._id,\n" +
-                "       results_questions.results_id,\n" +
-                "       results_questions.question_id,\n" +
-                "       results_questions.answer,\n" +
-                "       results_questions.value,\n" +
-                "       results_questions.time\n" +
+    public Cursor getUserResults(int userid) {
+        String query = "select results._id as results__id,\n" +
+                "       results.start_time as results_start_time,\n" +
+                "       results.end_time as results_end_time,\n" +
+                "       results.users_profiles_id as results_users_profiles_id,\n" +
+                "       results_questions._id as results_questions__id,\n" +
+                "       results_questions.results_id as results_questions_results_id,\n" +
+                "       results_questions.question_id as results_questions_question_id,\n" +
+                "       results_questions.answer as results_questions_answer,\n" +
+                "       results_questions.value as results_questions_value,\n" +
+                "       results_questions.time as results_questions_time\n" +
                 "from users_profiles\n" +
                 "left join results ON users_profiles._id = results.users_profiles_id\n" +
                 "left join results_questions ON results._id = results_questions.results_id\n" +
-                "WHERE users_profiles.user_id = ? \n" +
+                "WHERE users_profiles._id = ? \n" +
                 "ORDER BY users_profiles._id, results._id, results_questions._id";
 
         return db.rawQuery(query, new String[] {
-           userid
+           String.valueOf(userid)
         });
     }
 

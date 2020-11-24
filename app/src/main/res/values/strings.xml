@@ -35,4 +35,6 @@
     <string name="action_play">¡Jugar!</string>
     <string name="profile_name">Nombre</string>
     <string name="profile_birthdate">Fecha de nacimiento</string>
+    <string name="anon_play">Jugar sin perfil</string>
+    <string name="view_profles">Seleccionar perfil</string>
 </resources>

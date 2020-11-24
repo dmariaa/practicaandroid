@@ -71,4 +71,16 @@ public class Result implements Serializable {
     public void setUsersProfilesId(int usersProfilesId) {
         this.usersProfilesId = usersProfilesId;
     }
+
+    public int getTotalAnswers() {
+        return this.questions.size();
+    }
+
+    public int getRightAnswers() {
+        int r = 0;
+        for(int i=0; i<this.questions.size(); i++) {
+            r += this.questions.get(i).getValue();
+        }
+        return r;
+    }
 }

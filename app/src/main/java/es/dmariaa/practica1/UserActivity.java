@@ -74,8 +74,7 @@ public class UserActivity extends AppCompatActivity {
 
     public void playGame(UserProfile user) {
         Intent intent = new Intent(this, TriviaActivity.class);
-        intent.putExtra("USERID", user.getUserId());
-        intent.putExtra("BIRTHDATE", user.getBirthDate());
+        intent.putExtra("USERID", user.getId());
         startActivity(intent);
     }
 

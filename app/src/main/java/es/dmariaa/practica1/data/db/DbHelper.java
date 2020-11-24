@@ -20,7 +20,6 @@ public class DbHelper extends SQLiteOpenHelper {
             DbHelper.copyLocalDatabase(context);
             instance = new DbHelper(context);
         }
-
         return instance;
     }
 
@@ -31,7 +30,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static void copyLocalDatabase(Context context) {
         File file = context.getDatabasePath(DbContract.DB_NAME);
 
-        if (!file.exists() || true) { // FORCE COPY FOR TESTING
+        if (!file.exists()) { // FORCE COPY FOR TESTING
             try {
                 InputStream assetsFile = context.getAssets().open(DbContract.DB_NAME);
                 OutputStream databaseFile = new FileOutputStream(file);
