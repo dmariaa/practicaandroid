@@ -10,6 +10,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -54,6 +55,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     BaseQuestionFragment currentFragment;
     boolean showAnswer = true;
 
+    LinearLayout imageVideoContainer;
     VideoView questionVideo;
     ImageView questionImage;
     TextView questionDescription;
@@ -141,6 +143,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     private void showQuestionDescription(Question question) {
         if(question.getImage() != null && !question.getImage().isEmpty()) {
             try {
+                imageVideoContainer.setVisibility(View.VISIBLE);
                 questionImage.setVisibility(View.VISIBLE);
                 questionVideo.setVisibility(View.GONE);
 
@@ -153,6 +156,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
                 questionImage.setVisibility(View.GONE);
             }
         } else if(question.getVideo() != null && !question.getVideo().isEmpty()) {
+            imageVideoContainer.setVisibility(View.VISIBLE);
             questionImage.setVisibility(View.GONE);
             questionVideo.setVisibility(View.VISIBLE);
 
@@ -161,6 +165,10 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             // questionVideo.setMediaController(mediaController);
             questionVideo.requestFocus();
             questionVideo.start();
+        } else {
+            imageVideoContainer.setVisibility(View.GONE);
+            questionImage.setVisibility(View.GONE);
+            questionVideo.setVisibility(View.GONE);
         }
 
         questionDescription.setText(Html.fromHtml(question.getDescription()));
@@ -219,6 +227,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         confirmButton.setOnClickListener(this);
         confirmButton.hide();
 
+        imageVideoContainer = findViewById(R.id.question_video_layout);
         questionDescription = findViewById(R.id.question_text);
         questionImage = findViewById(R.id.question_image);
         questionVideo = findViewById(R.id.question_video);

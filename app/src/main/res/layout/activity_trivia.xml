@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/question_video_layout"
         android:layout_width="380dp"
-        android:layout_height="214dp"
+        android:layout_height="245dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,10 +19,10 @@
 
         <ImageView
             android:id="@+id/question_image"
-            android:layout_width="108dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:scaleType="fitStart"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.50"
