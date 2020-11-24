@@ -1,9 +1,10 @@
 package es.dmariaa.practica1.data.model;
 
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class ResultQuestions {
+public class ResultQuestions implements Serializable {
     private int id;
     private int resultsId;
     private int questionId;

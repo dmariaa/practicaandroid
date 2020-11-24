@@ -27,11 +27,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import es.dmariaa.practica1.R;
 import es.dmariaa.practica1.TriviaEndActivity;
 import es.dmariaa.practica1.data.model.Question;
+import es.dmariaa.practica1.data.model.QuestionType;
+import es.dmariaa.practica1.data.model.Result;
+import es.dmariaa.practica1.data.model.ResultQuestions;
+import es.dmariaa.practica1.data.model.UserProfile;
 import es.dmariaa.practica1.dialogs.AnswerResultDialogFragment;
 import es.dmariaa.practica1.interfaces.OnQuestionAnsweredListener;
 import es.dmariaa.practica1.interfaces.OnResultClosedListener;
@@ -43,8 +49,12 @@ import es.dmariaa.practica1.ui.questions.questiontypes.ValueQuestionFragment;
 
 public class TriviaActivity extends AppCompatActivity implements View.OnClickListener, OnQuestionAnsweredListener {
     QuestionsViewModel viewModel;
-
     List<Question> questions;
+    UserProfile userProfile;
+    Result userResult;
+    int currentUser;
+    TextView rightAnswers;
+    TextView wrongAnswers;
 
     FloatingActionButton confirmButton;
     int currentQuestion = 0;
@@ -171,7 +181,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setCurrentQuestionTitle() {
-        this.setTitle(getString(R.string.trivia_title, currentQuestion + 1));
+        this.setTitle(getString(R.string.trivia_title, currentQuestion + 1, questions.size()));
     }
 
     /**
@@ -203,9 +213,13 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trivia);
 
-        String username = getIntent().getStringExtra("USERID");
-        String birthdate = getIntent().getStringExtra("BIRTHDATE");
+        String userIdx = getIntent().getStringExtra("USERIDX");
 
+        if(userIdx != null) {
+            currentUser = Integer.parseInt(userIdx);
+        } else {
+            currentUser = -1;
+        }
 
         confirmButton = (FloatingActionButton) findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
@@ -216,16 +230,39 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         questionImage = findViewById(R.id.question_image);
         questionVideo = findViewById(R.id.question_video);
 
+        rightAnswers = findViewById(R.id.right_answers);
+        wrongAnswers = findViewById(R.id.wrong_answers);
+
         QuestionsViewModelFactory factory = new QuestionsViewModelFactory(this);
         viewModel = new ViewModelProvider(this, factory).get(QuestionsViewModel.class);
         viewModel.getQuestions().observe(this, observeQuestions);
+        viewModel.getUserProfile().observe(this, observeUserProfile);
+
+        viewModel.setCurrentUser(currentUser);
     }
+
+    Observer<UserProfile> observeUserProfile = (UserProfile userProfile) -> {
+        if(this.userProfile != null) {
+            this.userProfile = userProfile;
+        } else {
+            this.userProfile = new UserProfile();
+        }
+
+        java.sql.Date start = new java.sql.Date(new Date().getTime());
+        this.userResult = new Result(-1, start, null, userProfile.getId());
+
+    };
 
     Observer<List<Question>> observeQuestions = (List<Question> questions) -> {
         this.questions = questions;
+
+        rightAnswers.setText("0");
+        wrongAnswers.setText("0");
+
+        filterQuestions(q -> q.getType() == QuestionType.TRUEFALSE);
+        Collections.shuffle(this.questions);
         loadQuestionFragment(this.questions.get(currentQuestion));
     };
-
 
 
     @Override
@@ -235,19 +272,36 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             currentFragment.pauseQuestion(false);
 
             boolean isCorrect = currentFragment.isCorrect();
-//            QuestionResult questionResult = new QuestionResult();
-//            questionResult.setId(currentFragment.getQuestion().getId());
-//            questionResult.setValue(isCorrect ? 1 : 0);
-//            result.putQuestionResult(questionResult);
+            Question question = this.questions.get(currentQuestion);
+            ResultQuestions resultQuestions = new ResultQuestions(-1, 0, question.getId(), "", isCorrect ? 1 : 0, new java.sql.Date(new Date().getTime()));
+            this.userResult.addQuestion(resultQuestions);
+
+            if(isCorrect) {
+                int n = Integer.parseInt(this.rightAnswers.getText().toString()) + 1;
+                this.rightAnswers.setText(String.valueOf(n));
+            } else {
+                int n = Integer.parseInt(this.wrongAnswers.getText().toString()) + 1;
+                this.wrongAnswers.setText(String.valueOf(n));
+            }
 
             showAnswer(isCorrect, () -> {
                 getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
                 currentQuestion++;
+
                 if (currentQuestion < questions.size()) {
                     loadQuestionFragment(questions.get(currentQuestion));
                 } else {
+                    if(userProfile.getId() > 0) {
+                        userProfile.addResult(this.userResult);
+                        viewModel.saveUser(userProfile);
+                    }
+
+                    this.userResult.totalAnswers = questions.size();
+                    this.userResult.wrongAnsers = Integer.parseInt(this.wrongAnswers.getText().toString());
+                    this.userResult.rightAnswers = Integer.parseInt(this.rightAnswers.getText().toString());
+
                     Intent intent = new Intent(this, TriviaEndActivity.class);
-//                    intent.putExtra("RESULT", result);
+                    intent.putExtra("RESULT", this.userResult);
                     startActivity(intent);
                 }
             });

@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_launcher_background"
+            app:srcCompat="@drawable/ic_launcher_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.50"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +66,42 @@
             android:layout_height="match_parent"
             android:padding="24dp">
         </FrameLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_gravity="bottom|left"
+            android:padding="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/right_answers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:width="64dp"
+                    android:height="64dp"
+                    android:background="@color/color_right"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/wrong_answers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:width="64dp"
+                    android:height="64dp"
+                    android:background="@color/color_wrong1"
+                    android:textColor="@color/white"
+                    android:text="0"
+                    android:gravity="center"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/confirmButton"
