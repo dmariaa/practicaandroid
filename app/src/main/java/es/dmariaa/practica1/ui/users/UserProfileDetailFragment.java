@@ -1,16 +1,20 @@
 package es.dmariaa.practica1.ui.users;
 
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,29 +25,40 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmariaa.practica1.R;
 import es.dmariaa.practica1.UserActivity;
 import es.dmariaa.practica1.data.model.Result;
 import es.dmariaa.practica1.data.model.UserProfile;
+import es.dmariaa.practica1.dialogs.DatePickerFragment;
 
 public class UserProfileDetailFragment extends Fragment {
     UserPofileListViewModel viewModel;
 
     TextView placeHolder;
     CircleImageView avatar;
-    TextView displayName;
+
+    TextInputLayout displayName;
+    TextInputLayout birthDate;
+
     TextView lastGameStart;
     TextView lastGameEnd;
     TextView result;
     TextView score;
     Button playButton;
     MaterialCardView lastGameCard;
+    String currentPhotoUri;
+
+    FloatingActionButton editButton;
+    FloatingActionButton capturePhoto;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -76,20 +91,18 @@ public class UserProfileDetailFragment extends Fragment {
         placeHolder = view.findViewById(R.id.placeholder);
         avatar = view.findViewById(R.id.avatar);
         displayName = view.findViewById(R.id.displayname);
-
+        birthDate = view.findViewById(R.id.birthdate);
         lastGameStart = view.findViewById(R.id.last_game_start);
         lastGameEnd = view.findViewById(R.id.last_game_end);
         result = view.findViewById(R.id.result);
         score = view.findViewById(R.id.score);
-
-        playButton = view.findViewById(R.id.play);
-
         lastGameCard = view.findViewById(R.id.last_game_card);
-
-        playButton.setOnClickListener(playOnClickListener);
+        playButton = view.findViewById(R.id.play);
+        editButton = view.findViewById(R.id.edit_profile_button);
+        capturePhoto = view.findViewById(R.id.capture_photo);
     }
 
-    View.OnClickListener playOnClickListener = new View.OnClickListener() {
+    OnClickListener playOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
             UserActivity activity = (UserActivity) getActivity();
@@ -99,34 +112,25 @@ public class UserProfileDetailFragment extends Fragment {
 
 
     private Drawable getAvatarBackground(UserProfile profile) {
+        int color;
+
+        if(profile.getDisplayName()==null) {
+            color = getResources().getColor(R.color.colorPrimary);
+        } else {
+            color = profile.getProfileColor();
+        }
+
         Drawable drawable = getContext().getResources().getDrawable(R.drawable.big_circle);
-        drawable.setColorFilter(profile.getProfileColor(), PorterDuff.Mode.MULTIPLY);
+        drawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         return drawable;
     }
 
-    /**
-     * Inspired from:
-     * https://android.jlelse.eu/avatarview-custom-implementation-of-imageview-4bcf0714d09d
-     * @param avatar
-     * @return
-     */
-    private Bitmap getAvatarBitmap(String avatar) {
-        try {
-            String imageFile = String.format("question-images/%s", avatar);
-            InputStream questionImage = getContext().getResources().getAssets().open(imageFile);
-            Bitmap questionImageBitmap = BitmapFactory.decodeStream(questionImage);
-            return questionImageBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
     private void setProfile(UserProfile userProfile) {
-        displayName.setText(userProfile.getDisplayName());
+        displayName.getEditText().setText(userProfile.getDisplayName());
+        birthDate.getEditText().setText(userProfile.getBirthDateFormatted());
 
-        Bitmap avatarBitmap = this.getAvatarBitmap(userProfile.getPhoto());
+        Bitmap avatarBitmap = userProfile.getPhotoAsBitmap(getContext());
+        currentPhotoUri = userProfile.getPhoto();
 
         if(avatarBitmap != null) {
             avatar.setImageBitmap(avatarBitmap);
@@ -142,11 +146,11 @@ public class UserProfileDetailFragment extends Fragment {
         if(userProfile.getResults().size() > 0) {
             Result lastGame = userProfile.getResults().get(userProfile.getResults().size() - 1);
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-            String dateFormatted = simpleDateFormat.format(lastGame.getStartTime());
+            SimpleDateFormat gameDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+            String dateFormatted = gameDateFormat.format(lastGame.getStartTime());
             lastGameStart.setText(dateFormatted);
 
-            dateFormatted = simpleDateFormat.format(lastGame.getEndTime());
+            dateFormatted = gameDateFormat.format(lastGame.getEndTime());
             lastGameStart.setText(dateFormatted);
 
             result.setText("0/0");
@@ -156,7 +160,91 @@ public class UserProfileDetailFragment extends Fragment {
         } else {
             lastGameCard.setVisibility(View.GONE);
         }
+
+        if(userProfile.getId() != 0) {
+            setReadOnlyMode();
+        } else {
+            setEditMode();
+        }
     }
+
+    private void setReadOnlyMode() {
+        displayName.setEnabled(false);
+        birthDate.setEnabled(false);
+        birthDate.getEditText().setOnClickListener(null);
+
+        editButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_edit_24));
+        editButton.setOnClickListener(view1 -> setEditMode());
+
+        capturePhoto.setVisibility(View.GONE);
+        capturePhoto.setOnClickListener(null);
+
+        playButton.setVisibility(View.VISIBLE);
+        playButton.setOnClickListener(playOnClickListener);
+    }
+
+    private void setEditMode() {
+        displayName.setEnabled(true);
+        birthDate.setEnabled(true);
+        birthDate.getEditText().setOnClickListener(birthDateClickListener);
+
+        editButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_24));
+        editButton.setOnClickListener(editClickListener);
+
+        capturePhoto.setVisibility(View.VISIBLE);
+        capturePhoto.setOnClickListener(capturePhotoClickListener);
+
+        playButton.setVisibility(View.GONE);
+        playButton.setOnClickListener(null);
+    }
+
+    OnClickListener editClickListener = view -> {
+        UserProfile userProfile = viewModel.getCurrentProfile().getValue();
+        userProfile.setDisplayName(displayName.getEditText().getText().toString());
+        userProfile.setBirthDateString(birthDate.getEditText().getText().toString());
+        if(currentPhotoUri != null) {
+            userProfile.setPhoto(currentPhotoUri);
+        }
+        viewModel.saveCurrentProfile(userProfile);
+        setReadOnlyMode();
+    };
+
+    OnClickListener capturePhotoClickListener = view -> {
+        UserActivity activity = (UserActivity) getActivity();
+        activity.openCameraAndTakePicture(new UserActivity.PhotoListener() {
+            @Override
+            public void OnPhotoCaptured(Uri photoURI) {
+                try {
+                    Bitmap avatarBitmap = null;
+                    avatarBitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(photoURI));
+                    avatar.setImageBitmap(avatarBitmap);
+                    avatar.setVisibility(View.VISIBLE);
+                    placeHolder.setVisibility(View.INVISIBLE);
+                    currentPhotoUri = photoURI.toString();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    };
+
+    OnClickListener birthDateClickListener = view -> showDatePickerDialog();
+
+
+    private void showDatePickerDialog() {
+        DatePickerFragment datePicker = DatePickerFragment.newInstance(dateSetListener);
+        datePicker.show(getActivity().getSupportFragmentManager(), "datePicker");
+    }
+
+    OnDateSetListener dateSetListener = new OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+            Calendar calendar = new GregorianCalendar(year, month, day);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String dateFormatted = simpleDateFormat.format(calendar.getTime());
+            birthDate.getEditText().setText(dateFormatted);
+        }
+    };
 
     Observer<UserProfile> currentProfileObserver = new Observer<UserProfile>() {
         @Override
@@ -164,4 +252,5 @@ public class UserProfileDetailFragment extends Fragment {
             setProfile(userProfile);
         }
     };
+
 }

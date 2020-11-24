@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -31,6 +34,7 @@ public class UserProfileListFragment extends Fragment {
     RecyclerView recyclerView;
     UserProfileRecyclerViewAdapter recyclerViewAdapter;
     UserProfileListFragment fragment;
+    FloatingActionButton addProfilebutton;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -49,10 +53,12 @@ public class UserProfileListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
+        RecyclerView rv = view.findViewById(R.id.list);
+
         // Set the adapter
-        if (view instanceof RecyclerView) {
+        if (rv instanceof RecyclerView) {
             Context context = getContext();
-            recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) rv;
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.addOnItemTouchListener(this.itemClickListener);
 
@@ -65,6 +71,17 @@ public class UserProfileListFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        addProfilebutton = view.findViewById(R.id.add_profile_button);
+        addProfilebutton.setOnClickListener(addProfileClickListener);
+    }
+
+    View.OnClickListener addProfileClickListener = (view) -> {
+        openDetailFragment(-1);
+    };
 
     UserProfileRecyclerClickListener itemClickListener = new UserProfileRecyclerClickListener(getContext(),
         new UserProfileRecyclerClickListener.OnItemClickListener() {
@@ -85,8 +102,13 @@ public class UserProfileListFragment extends Fragment {
     public void openDetailFragment(int position) {
         Context context = getContext();
         if(context instanceof UserActivity) {
-            UserProfile userProfile = viewModel.getUsersProfiles().getValue().get(position);
-            viewModel.setCurrentProfile(userProfile);
+            if(position==-1) {
+                viewModel.addNewProfile();
+            } else {
+                UserProfile userProfile = viewModel.getUsersProfiles().getValue().get(position);
+                viewModel.saveCurrentProfile(userProfile);
+            }
+
             ((UserActivity) context).showDetailFragment();
         }
     }

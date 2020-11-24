@@ -13,4 +13,6 @@
     <color name="red_thumb">#e53935</color>
     <color name="red_track">#ab000d</color>
     <color name="mtrl_list_item_tint">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>
