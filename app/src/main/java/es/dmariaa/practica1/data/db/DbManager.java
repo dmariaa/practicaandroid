@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import es.dmariaa.practica1.data.model.Result;
+import es.dmariaa.practica1.data.model.ResultQuestions;
 import es.dmariaa.practica1.data.model.UserProfile;
 
 public class DbManager {
@@ -57,6 +59,26 @@ public class DbManager {
                 null, null, null);
     }
 
+    public Cursor getUserByUserId(int idx) {
+        String[] columns = new String[] {
+                DbContract.DbUserProfiles._ID,
+                DbContract.DbUserProfiles.COLUMN_NAME_USER_ID,
+                DbContract.DbUserProfiles.COLUMN_NAME_NAME,
+                DbContract.DbUserProfiles.COLUMN_NAME_PHOTO,
+                DbContract.DbUserProfiles.COLUMN_NAME_BIRTH_DATE
+        };
+
+        String where = DbContract.DbUserProfiles._ID + "=?";
+
+        String[] whereValues = new String[] {
+                String.valueOf(idx)
+        };
+
+        return db.query(DbContract.DbUserProfiles.TABLE_NAME, columns, where, whereValues,
+                null, null, null);
+    }
+
+
     public Cursor getUserResults(String userid) {
         String query = "select results._id,\n" +
                 "       results.start_time,\n" +
@@ -89,6 +111,12 @@ public class DbManager {
                 new String[] { String.valueOf(userProfile.getId()) });
 
         }
+
+        if(userProfile.getResults().size() > 0) {
+            for(int i=0; i < userProfile.getResults().size(); i++) {
+                saveUserResult(userProfile.getResults().get(i));
+            }
+        }
     }
 
     private ContentValues generateUserProfileContentValues(UserProfile userProfile) {
@@ -99,6 +127,51 @@ public class DbManager {
         contentValues.put(DbContract.DbUserProfiles.COLUMN_NAME_PHOTO, userProfile.getPhoto());
         return contentValues;
     }
+
+    public void saveUserResult(Result result) {
+        if(result.getId()==0) {
+            this.db.insert(DbContract.DbResults.TABLE_NAME, null, generateResultContentValues(result));
+        } else {
+            this.db.update(DbContract.DbResults.TABLE_NAME,
+                    generateResultContentValues(result),
+                    "_id=?", new String[] { String.valueOf(result.getId()) });
+        }
+
+        if(result.getQuestions().size() > 0) {
+            for(int i=0; i < result.getQuestions().size(); i++) {
+                saveResultQuestion(result.getQuestions().get(i));
+            }
+        }
+    }
+
+    private ContentValues generateResultContentValues(Result result) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbContract.DbResults.COLUMN_NAME_START_TIME, result.getStartTime().getTime());
+        contentValues.put(DbContract.DbResults.COLUMN_NAME_END_TIME, result.getEndTime().getTime());
+        contentValues.put(DbContract.DbResults.COLUMN_NAME_USERS_PROFILES_ID, result.getUsersProfilesId());
+        return contentValues;
+    }
+
+    public void saveResultQuestion(ResultQuestions question) {
+        if(question.getId()==0) {
+            this.db.insert(DbContract.DbResultsQuestions.TABLE_NAME, null, generateResultQuestionContentValues(question));
+        } else {
+            this.db.update(DbContract.DbResultsQuestions.TABLE_NAME,
+                    generateResultQuestionContentValues(question),
+                    "_id=?", new String[] { String.valueOf(question.getId()) });
+        }
+    }
+
+    private ContentValues generateResultQuestionContentValues(ResultQuestions question) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbContract.DbResultsQuestions.COLUMN_NAME_ANSWER, question.getAnswer());
+        contentValues.put(DbContract.DbResultsQuestions.COLUMN_NAME_QUESTION_ID, question.getQuestionId());
+        contentValues.put(DbContract.DbResultsQuestions.COLUMN_NAME_RESULTS_ID, question.getResultsId());
+        contentValues.put(DbContract.DbResultsQuestions.COLUMN_NAME_TIME, question.getTime().getTime());
+        contentValues.put(DbContract.DbResultsQuestions.COLUMN_NAME_VALUE, question.getValue());
+        return contentValues;
+    }
+
 
     public Cursor getAllQuestions() {
         String query = "select questions._id as questions__id,\n" +

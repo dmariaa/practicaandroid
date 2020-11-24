@@ -1,15 +1,20 @@
 package es.dmariaa.practica1.data.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Result {
+public class Result implements Serializable {
     private int id;
     private Date startTime;
     private Date endTime;
     private int usersProfilesId;
     private List<ResultQuestions> questions;
+
+    public int totalAnswers;
+    public int rightAnswers;
+    public int wrongAnsers;
 
     public Result(int id, Date startTime, Date endTime, int usersProfilesId) {
         this.id = id;

@@ -41,6 +41,10 @@ public class UserProfile {
         results = new ArrayList<Result>();
     }
 
+    public void addResult(Result result) {
+        results.add(result);
+    }
+
     public List<Result> getResults() {
         return results;
     }

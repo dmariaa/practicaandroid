@@ -15,4 +15,6 @@
     <color name="mtrl_list_item_tint">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="color_right">#37FF00</color>
+    <color name="color_wrong1">#FF1100</color>
 </resources>

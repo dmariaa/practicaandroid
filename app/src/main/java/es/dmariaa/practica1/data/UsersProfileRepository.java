@@ -133,6 +133,22 @@ public class UsersProfileRepository {
         return userProfile;
     }
 
+    public UserProfile getUserProfile(int idx) {
+        Cursor cursor = dbManager.getUserByUserId(idx);
+        UserProfile userProfile = null;
+
+        if(cursor.getCount() > 0) {
+            int id = cursor.getInt(cursor.getColumnIndex(DbContract.DbUserProfiles._ID));
+            String userId = cursor.getString(cursor.getColumnIndex(DbContract.DbUserProfiles.COLUMN_NAME_USER_ID));
+            String userName = cursor.getString(cursor.getColumnIndex(DbContract.DbUserProfiles.COLUMN_NAME_NAME));
+            String userPhoto = cursor.getString(cursor.getColumnIndex(DbContract.DbUserProfiles.COLUMN_NAME_PHOTO));
+            Long userBirthDate = cursor.getLong(cursor.getColumnIndex(DbContract.DbUserProfiles.COLUMN_NAME_BIRTH_DATE));
+            userProfile = new UserProfile(id, userId, userName, new Date(userBirthDate), userPhoto);
+        }
+
+        return userProfile;
+    }
+
     public void saveUserProfile(UserProfile profile) {
         dbManager.saveUser(profile);
 
