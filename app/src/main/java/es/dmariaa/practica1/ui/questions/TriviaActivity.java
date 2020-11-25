@@ -34,7 +34,6 @@ import java.util.List;
 import es.dmariaa.practica1.R;
 import es.dmariaa.practica1.TriviaEndActivity;
 import es.dmariaa.practica1.data.model.Question;
-import es.dmariaa.practica1.data.model.QuestionType;
 import es.dmariaa.practica1.data.model.Result;
 import es.dmariaa.practica1.data.model.ResultQuestions;
 import es.dmariaa.practica1.data.model.UserProfile;
@@ -253,7 +252,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         rightAnswers.setText("0");
         wrongAnswers.setText("0");
 
-        filterQuestions(q -> q.getType() == QuestionType.TRUEFALSE);
+        // filterQuestions(q -> q.getType() == QuestionType.TRUEFALSE);
         Collections.shuffle(this.questions);
         loadQuestionFragment(this.questions.get(currentQuestion));
     };
